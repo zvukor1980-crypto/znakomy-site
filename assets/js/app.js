@@ -1,7 +1,7 @@
 const SUPABASE_URL = "https://kfxhmjbdyovododkndpu.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iZakAF0HwDNE774ZX939fg_P5mtH8GC";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const ADMIN_EMAIL = "digitalaleksei@gmail.com";
+const ADMIN_EMAILS = ["digitalaleksei@gmail.com", "zvukor1980@gmail.com"];
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -119,7 +119,7 @@ async function showAccount(user) {
     profileForm.elements[name].value = (data[name] || []).join(", ");
   }
   renderProfileState();
-  if ((user.email || "").toLowerCase() === ADMIN_EMAIL) {
+  if (ADMIN_EMAILS.includes((user.email || "").toLowerCase())) {
     $("#adminPanel").hidden = false;
     await loadAdminQueue();
   }
