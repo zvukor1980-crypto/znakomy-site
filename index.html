@@ -47,7 +47,7 @@
             <div class="header-actions">
                 <a
                     class="header-button"
-                    href="mailto:admin@alexdlab.com?subject=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D1%80%D0%B8%D1%81%D0%BE%D0%B5%D0%B4%D0%B8%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%BA%20Znakomy"
+                    href="#auth" data-open-auth
                 >
                     Присоединиться
                 </a>
@@ -87,7 +87,7 @@
                     <div class="hero-actions">
                         <a
                             class="button button-primary"
-                            href="mailto:admin@alexdlab.com?subject=%D0%A5%D0%BE%D1%87%D1%83%20%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C%20%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%83%20%D0%BD%D0%B0%20Znakomy"
+                            href="#auth" data-open-auth
                         >
                             Создать анкету
                             <span>→</span>
@@ -183,7 +183,7 @@
                         </div>
 
                         <a
-                            href="mailto:admin@alexdlab.com?subject=%D0%A5%D0%BE%D1%87%D1%83%20%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C%20%D0%B0%D0%BD%D0%BA%D0%B5%D1%82%D1%83%20%D0%BD%D0%B0%20Znakomy"
+                            href="#auth" data-open-auth
                         >
                             Создать анкету →
                         </a>
@@ -197,7 +197,10 @@
                         <button class="filter-button" type="button">Клавиши</button>
                     </div>
 
-                    <div class="musician-gallery">
+                    <div class="member-toolbar" id="memberToolbar">
+                        <span id="memberCount">Загрузка анкет…</span>
+                    </div>
+                    <div class="musician-gallery" id="profileGrid">
                         <article class="musician-card musician-card-large">
                             <img
                                 src="https://images.unsplash.com/photo-1521337581100-8ca9a73a5f79?auto=format&fit=crop&w=900&q=88"
@@ -372,8 +375,8 @@
                     </p>
 
                     <div class="contact-list">
-                        <a href="mailto:admin@alexdlab.com">
-                            admin@alexdlab.com
+                        <a href="mailto:digitalaleksei@gmail.com">
+                            digitalaleksei@gmail.com
                         </a>
 
                         <span>Хайфа, Израиль</span>
@@ -381,40 +384,64 @@
                     </div>
                 </div>
 
-                <form
-                    class="contact-form"
-                    action="mailto:admin@alexdlab.com"
-                    method="post"
-                    enctype="text/plain"
-                >
-                    <div class="form-row">
-                        <input type="text" name="name" placeholder="Ваше имя">
-                        <input type="email" name="email" placeholder="Email">
-                    </div>
-
-                    <select name="type">
-                        <option value="">Кого вы ищете?</option>
-                        <option>Вокалиста</option>
-                        <option>Гитариста</option>
-                        <option>Барабанщика</option>
-                        <option>Басиста</option>
-                        <option>Участников группы</option>
-                        <option>Друзей по интересам</option>
-                    </select>
-
-                    <textarea
-                        name="message"
-                        rows="5"
-                        placeholder="Расскажите немного о себе"
-                    ></textarea>
-
-                    <button type="submit">
-                        Отправить заявку →
-                    </button>
-                </form>
+                <div class="contact-form join-card">
+                    <h3>Создайте бесплатную анкету</h3>
+                    <p>Подтвердите email, расскажите о себе и отправьте анкету на проверку.</p>
+                    <button type="button" data-open-auth>Регистрация / вход →</button>
+                    <small>Поддержка: <a href="mailto:digitalaleksei@gmail.com">digitalaleksei@gmail.com</a></small>
+                </div>
             </section>
         </main>
 
+
+        <div class="modal" id="authModal" aria-hidden="true">
+            <div class="modal-backdrop" data-close-modal></div>
+            <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+                <button class="modal-close" type="button" data-close-modal aria-label="Закрыть">×</button>
+                <div id="authView">
+                    <span class="section-label">Личный кабинет</span>
+                    <h2 id="authTitle">Регистрация</h2>
+                    <div class="auth-tabs">
+                        <button type="button" class="active" data-auth-mode="signup">Регистрация</button>
+                        <button type="button" data-auth-mode="signin">Вход</button>
+                    </div>
+                    <form id="authForm" class="app-form">
+                        <label id="nameField">Имя<input name="display_name" maxlength="80" autocomplete="name" required></label>
+                        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                        <label>Пароль<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+                        <button type="submit" class="app-primary">Продолжить</button>
+                        <button type="button" class="text-button" id="resetPassword">Забыли пароль?</button>
+                        <p class="form-status" id="authStatus" aria-live="polite"></p>
+                    </form>
+                </div>
+                <div id="profileView" hidden>
+                    <span class="section-label">Личный кабинет</span>
+                    <div class="profile-heading"><h2>Моя анкета</h2><button type="button" class="text-button" id="logoutButton">Выйти</button></div>
+                    <p class="profile-state" id="profileState"></p>
+                    <form id="profileForm" class="app-form">
+                        <div class="form-row">
+                            <label>Имя<input name="display_name" maxlength="80" required></label>
+                            <label>Год рождения<input name="birth_year" type="number" min="1900" max="2008" required></label>
+                        </div>
+                        <label>Город<input name="city" value="Хайфа" required></label>
+                        <label>Инструменты / роль<input name="instruments" placeholder="Гитара, вокал, барабаны"></label>
+                        <label>Жанры<input name="genres" placeholder="Rock, Jazz, Indie"></label>
+                        <label>Кого или что ищете<input name="looking_for" placeholder="Группу, вокалиста, друзей"></label>
+                        <label>О себе<textarea name="bio" rows="5" minlength="20" maxlength="1500" required></textarea></label>
+                        <label>Фотография<input name="avatar" type="file" accept="image/jpeg,image/png,image/webp"></label>
+                        <div class="profile-actions">
+                            <button type="submit" class="app-primary">Сохранить</button>
+                            <button type="button" class="app-secondary" id="submitReview">Отправить на проверку</button>
+                        </div>
+                        <p class="form-status" id="profileStatus" aria-live="polite"></p>
+                    </form>
+                    <section id="adminPanel" class="admin-panel" hidden>
+                        <h3>Модерация</h3>
+                        <div id="adminQueue"></div>
+                    </section>
+                </div>
+            </section>
+        </div>
         <footer class="site-footer">
             <a class="footer-logo" href="#top">
                 ZNAKOMY
@@ -424,12 +451,13 @@
                 © 2026 Znakomy.online
             </span>
 
-            <a href="mailto:admin@alexdlab.com">
-                admin@alexdlab.com
+            <a href="mailto:digitalaleksei@gmail.com">
+                digitalaleksei@gmail.com
             </a>
         </footer>
     </div>
 
-    <script src="assets/js/app.js?v=1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/app.js?v=2"></script>
 </body>
 </html>
