@@ -86,6 +86,18 @@ authForm.addEventListener("submit", async (event) => {
   }
 });
 
+$("#resendConfirmation").addEventListener("click", async () => {
+  const email = authForm.email.value.trim().toLowerCase();
+  if (!email) return showMessage($("#authStatus"), "Сначала укажите email.", true);
+  showMessage($("#authStatus"), "Отправляю новое письмо…");
+  const {error} = await db.auth.resend({
+    type: "signup",
+    email,
+    options: {emailRedirectTo: "https://zvukor1980-crypto.github.io/znakomy-site/"}
+  });
+  showMessage($("#authStatus"), error ? error.message : "Новое письмо отправлено. Используйте самую свежую ссылку.", Boolean(error));
+});
+
 $("#resetPassword").addEventListener("click", async () => {
   const email = authForm.email.value.trim().toLowerCase();
   if (!email) return showMessage($("#authStatus"), "Сначала укажите email.", true);
