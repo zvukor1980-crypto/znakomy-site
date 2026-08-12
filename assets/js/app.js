@@ -54,11 +54,14 @@ document.addEventListener("keydown", (event) => { if (event.key === "Escape") cl
 function setAuthMode(mode) {
   authMode = mode;
   $$("[data-auth-mode]").forEach((button) => button.classList.toggle("active", button.dataset.authMode === mode));
-  $("#authTitle").textContent = mode === "signup" ? "Регистрация" : "Вход";
+  $("#authTitle").textContent = mode === "signup" ? "Регистрация нового пользователя" : "Вход в личный кабинет";
+  $("#authSubmit").textContent = mode === "signup" ? "Зарегистрироваться" : "Войти";
+  if (mode === "signin" && !authForm.email.value) authForm.email.value = "zvukor1980@gmail.com";
   $("#nameField").hidden = mode !== "signup";
   authForm.display_name.required = mode === "signup";
   authForm.password.autocomplete = mode === "signup" ? "new-password" : "current-password";
   $("#resetPassword").hidden = mode !== "signin";
+  $("#resendConfirmation").hidden = mode !== "signup";
   showMessage($("#authStatus"), "");
 }
 $$("[data-auth-mode]").forEach((button) => button.addEventListener("click", () => setAuthMode(button.dataset.authMode)));
@@ -77,11 +80,19 @@ authForm.addEventListener("submit", async (event) => {
         }
       })
     : await db.auth.signInWithPassword({email, password});
-  if (response.error) return showMessage($("#authStatus"), response.error.message, true);
+  if (response.error) {
+    console.error("Auth error", response.error);
+    const messages = {
+      invalid_credentials: "Неверный email или пароль. Если пароль не помните — нажмите «Забыли пароль?»",
+      email_not_confirmed: "Email ещё не подтверждён.",
+      over_request_rate_limit: "Слишком много попыток. Подождите несколько минут."
+    };
+    return showMessage($("#authStatus"), messages[response.error.code] || response.error.message || "Не удалось войти.", true);
+  }
   if (authMode === "signup" && !response.data.session) {
     showMessage($("#authStatus"), "Проверьте почту и подтвердите регистрацию.");
   } else {
-    showMessage($("#authStatus"), "Вход выполнен.");
+    showMessage($("#authStatus"), "Вход выполнен. Открываю личный кабинет…");
     await showAccount(response.data.user);
   }
 });
