@@ -407,9 +407,9 @@
                     </div>
                     <form id="authForm" class="app-form">
                         <label id="nameField">Имя<input name="display_name" maxlength="80" autocomplete="name" required></label>
-                        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                        <label>Email<input name="email" type="email" autocomplete="email" placeholder="zvukor1980@gmail.com" required></label>
                         <label>Пароль<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
-                        <button type="submit" class="app-primary">Продолжить</button>
+                        <button type="submit" class="app-primary" id="authSubmit">Зарегистрироваться</button>
                         <button type="button" class="text-button" id="resetPassword">Забыли пароль?</button>\n                        <button type="button" class="text-button" id="resendConfirmation">Отправить подтверждение ещё раз</button>
                         <p class="form-status" id="authStatus" aria-live="polite"></p>
                     </form>
@@ -458,6 +458,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/app.js?v=3"></script>
+    <script src="assets/js/app.js?v=5"></script>
 </body>
 </html>
