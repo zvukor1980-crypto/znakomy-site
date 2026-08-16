@@ -1,3 +1,54 @@
 .hero { position: relative; }
-.hero-copy { width: auto; }
+.hero-copy { width: auto; padding-block: 64px; }
 .hero-media { position: relative; inset: auto; width: auto; height: auto; }
+.hero h1 { font-size: clamp(54px, 5.5vw, 82px); }
+
+.portfolio-panel,
+.manifesto-section,
+.contact-section { padding-block: clamp(64px, 6vw, 86px); }
+
+.musician-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    gap: 14px;
+}
+
+.musician-card,
+.musician-card-large {
+    grid-column: auto;
+    grid-row: auto;
+    width: auto;
+    min-height: 360px;
+    aspect-ratio: 4 / 5;
+}
+
+.profile-loading {
+    grid-column: 1 / -1;
+    min-height: 180px;
+    display: grid;
+    place-items: center;
+    color: #766e68;
+    border-top: 1px solid rgba(23, 19, 18, .14);
+    border-bottom: 1px solid rgba(23, 19, 18, .14);
+}
+
+.manifesto-section > h2 { margin-bottom: 54px; }
+.contact-section { gap: clamp(42px, 7vw, 92px); }
+
+@media (max-width: 900px) {
+    .hero-copy { padding-block: 56px; }
+    .hero-media { min-height: 430px; }
+}
+
+@media (max-width: 640px) {
+    .portfolio-panel,
+    .manifesto-section,
+    .contact-section { padding-block: 54px; }
+    .hero-copy { padding-block: 54px 46px; }
+    .hero-media { min-height: 310px; }
+    .musician-gallery { grid-template-columns: 1fr; }
+    .musician-card,
+    .musician-card-large { min-height: 360px; aspect-ratio: 4 / 5; }
+}

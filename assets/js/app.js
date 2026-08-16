@@ -220,10 +220,13 @@ async function loadProfiles() {
   const {data, error} = await db.from("profiles").select("id,display_name,city,instruments,genres,looking_for,bio,avatar_path,created_at").eq("status","approved").order("created_at",{ascending:false});
   if (error) {
     $("#memberCount").textContent = "Не удалось загрузить анкеты";
+    $("#profileGrid").innerHTML = '<div class="profile-loading">Попробуйте обновить страницу чуть позже.</div>';
     return;
   }
   $("#memberCount").textContent = data.length ? "Анкет: " + data.length : "Пока нет опубликованных анкет";
-  if (data.length) $("#profileGrid").innerHTML = data.map(profileCard).join("");
+  $("#profileGrid").innerHTML = data.length
+    ? data.map(profileCard).join("")
+    : '<div class="profile-loading">Станьте первым музыкантом в сообществе.</div>';
 }
 $("#profileGrid").addEventListener("click", async (event) => {
   const button = event.target.closest(".start-chat");
