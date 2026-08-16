@@ -9,6 +9,18 @@ const splitList = (value) => value.split(",").map((item) => item.trim()).filter(
 const escapeHtml = (value = "") => String(value).replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
 const statusNames = {draft:"Черновик",pending:"Ожидает проверки",approved:"Опубликована",rejected:"Нужны исправления",suspended:"Приостановлена"};
 
+document.addEventListener("pointermove", (event) => {
+  document.body.style.setProperty("--mx", `${event.clientX}px`);
+  document.body.style.setProperty("--my", `${event.clientY}px`);
+});
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => entry.target.classList.toggle("visible", entry.isIntersecting));
+}, {threshold:0.08, rootMargin:"0px 0px -40px"});
+document.querySelectorAll(".benefits,.content-grid,.manifesto-section,.services-section,.contact-section").forEach((element) => {
+  element.classList.add("reveal");
+  revealObserver.observe(element);
+});
+
 const menuButton = $(".menu-button");
 const nav = $(".main-nav");
 if (menuButton && nav) {
