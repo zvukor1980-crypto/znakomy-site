@@ -1,0 +1,81 @@
+:root { --ed-black:#0d0c0e; --ed-ivory:#f0ece3; --ed-rose:#b86f78; --ed-line:rgba(255,255,255,.18); }
+body { background:var(--ed-black); }
+.site-header { position:fixed; inset:0 0 auto; z-index:50; min-height:72px; background:linear-gradient(180deg,rgba(8,7,9,.86),transparent); border:0; backdrop-filter:none; }
+.site-header .header-button,.site-header .messages-button { color:#fff; background:transparent; border:1px solid rgba(255,255,255,.4); }
+.header-button:hover,.messages-button:hover { background:#fff; color:#0d0c0e; border-color:#fff; }
+
+.hero { position:relative; display:block; min-height:100svh; height:100svh; overflow:hidden; background:#0d0c0e; }
+.hero-media { position:absolute; inset:0; width:100%; height:100%; min-height:0; }
+.hero-media img { width:100%; height:100%; object-fit:cover; object-position:52% center; filter:grayscale(.25) saturate(.72) contrast(1.08) brightness(.72); }
+.hero-media::before { content:""; display:block!important; position:absolute; inset:0; z-index:2; background:linear-gradient(90deg,rgba(8,7,9,.94) 0%,rgba(8,7,9,.72) 38%,rgba(8,7,9,.08) 72%),linear-gradient(0deg,rgba(8,7,9,.78),transparent 48%); }
+.hero-media::after { content:""!important; display:block!important; position:absolute; z-index:3; top:0; right:0; width:52%; height:38%; background:linear-gradient(145deg,#080709 0%,#080709 58%,rgba(8,7,9,.96) 76%,transparent 100%); pointer-events:none; }
+.hero-copy { position:absolute; inset:0; z-index:4; width:100%; max-width:none; padding:clamp(110px,14vh,160px) clamp(22px,6vw,92px) clamp(54px,8vh,86px); display:flex; justify-content:flex-end; align-items:flex-start; background:transparent; }
+.eyebrow { margin:0 0 auto; color:rgba(255,255,255,.66); }
+.hero h1 { max-width:1040px; margin:0; color:#fff; font-family:"Space Grotesk",sans-serif; font-size:clamp(70px,9.2vw,142px); font-weight:600; line-height:.82; letter-spacing:-.078em; }
+.hero h1 span { color:var(--ed-rose); }
+.hero-description { max-width:520px; margin:34px 0 0; color:rgba(255,255,255,.72); font-size:18px; line-height:1.55; }
+.hero-actions { margin-top:30px; }
+.hero .button-primary { color:#0d0c0e!important; background:#fff!important; border-color:#fff!important; }
+.button-primary:hover { color:#fff; background:var(--ed-rose); border-color:var(--ed-rose); }
+.button-secondary { color:#fff; border-color:rgba(255,255,255,.35); }
+
+.content-grid { background:var(--ed-black); }
+.portfolio-panel { padding:clamp(76px,8vw,112px) clamp(22px,5vw,76px); background:var(--ed-black); }
+.portfolio-panel .section-label { color:var(--ed-rose); }
+.portfolio-panel .section-heading h2 { color:#fff; font-size:clamp(48px,6vw,88px); }
+.portfolio-panel .row-heading>a { color:#fff; border-color:var(--ed-line); }
+.portfolio-panel .filter-button { color:rgba(255,255,255,.58); border-color:var(--ed-line); }
+.portfolio-panel .filter-button.active,.portfolio-panel .filter-button:hover { color:#0d0c0e; background:#fff; border-color:#fff; }
+.portfolio-panel .member-toolbar { color:rgba(255,255,255,.5); }
+.musician-gallery { grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:auto; gap:16px; }
+.member-card { min-height:420px; aspect-ratio:3/4; border-radius:2px; }
+.musician-gallery:has(.member-card:only-child) { grid-template-columns:1fr; }
+.musician-gallery .member-card:only-child { width:100%; min-height:500px; aspect-ratio:16/6; }
+.musician-gallery .member-card:only-child img { object-position:center 36%; }
+.profile-loading { color:rgba(255,255,255,.5); border-color:var(--ed-line); }
+.start-chat { color:#0d0c0e; background:#fff; border:0; border-radius:999px; }
+.start-chat:hover { color:#fff; background:var(--ed-rose); }
+
+.manifesto-section { padding:clamp(78px,9vw,126px) clamp(22px,5vw,76px); color:#0d0c0e; background:var(--ed-ivory); }
+.manifesto-section .section-label { color:#8e5058; }
+.manifesto-section>h2 { max-width:1100px; margin:18px 0 clamp(52px,7vw,84px); color:#0d0c0e; font-size:clamp(52px,7vw,104px); }
+.steps-grid { border-color:rgba(13,12,14,.2); }
+.steps-grid article { color:#0d0c0e; border-color:rgba(13,12,14,.18); }
+.steps-grid article span { color:#8e5058; }
+.steps-grid article h3 { color:#0d0c0e; }
+.steps-grid article p { color:rgba(13,12,14,.58); }
+
+.contact-section { padding:clamp(76px,8vw,112px) clamp(22px,5vw,76px); grid-template-columns:minmax(0,1.25fr) minmax(340px,440px); background:#7e424b; }
+.contact-copy .section-label { color:rgba(255,255,255,.6); }
+.contact-copy h2 { max-width:900px; color:#fff; font-size:clamp(52px,7vw,104px); }
+.contact-copy p { color:rgba(255,255,255,.72); }
+.join-card { border-radius:2px; }
+.site-footer { min-height:86px; background:#0d0c0e; }
+
+@media(max-width:900px){
+  .hero { min-height:820px; height:100svh; }
+  .hero-media { min-height:0; }
+  .hero-media img { object-position:62% center; }
+  .hero-media::before { background:linear-gradient(0deg,rgba(8,7,9,.96) 0%,rgba(8,7,9,.55) 62%,rgba(8,7,9,.12)); }
+  .hero-media::after { width:74%; height:30%; }
+  .hero-copy { padding:110px 24px 48px; }
+  .hero h1 { font-size:clamp(64px,15vw,96px); }
+  .musician-gallery { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .musician-gallery .member-card:only-child { min-height:440px; aspect-ratio:4/3; }
+  .contact-section { grid-template-columns:1fr; }
+}
+@media(max-width:640px){
+  .site-header { min-height:64px; background:rgba(8,7,9,.78); backdrop-filter:blur(12px); }
+  .hero { min-height:760px; }
+  .hero-copy { padding:100px 20px 38px; }
+  .eyebrow { margin-bottom:auto; }
+  .hero h1 { font-size:clamp(58px,17vw,74px); line-height:.86; }
+  .hero-description { max-width:350px; margin-top:24px; font-size:16px; }
+  .hero-actions { width:100%; margin-top:24px; }
+  .portfolio-panel,.manifesto-section,.contact-section { padding:64px 20px; }
+  .portfolio-panel .row-heading { display:block; }
+  .portfolio-panel .row-heading>a { display:inline-block; margin-top:18px; }
+  .musician-gallery { grid-template-columns:1fr; }
+  .member-card,.musician-gallery .member-card:only-child { min-height:420px; aspect-ratio:4/5; }
+  .manifesto-section>h2,.contact-copy h2 { font-size:clamp(48px,14vw,66px); }
+}
