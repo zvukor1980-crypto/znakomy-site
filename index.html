@@ -10,22 +10,28 @@
 
     <meta name="theme-color" content="#080808">
 
-    <title>Znakomy — знакомства музыкантов в Хайфе</title>
+    <title>Znakomy — музыкальные знакомства в Хайфе</title>
 
     <meta
         name="description"
-        content="Знакомства музыкантов в Хайфе. Найди вокалиста, гитариста, барабанщика, друзей или участников для музыкального проекта."
+        content="Найди музыкантов, собери группу или начни новый проект в Хайфе. Живые анкеты, локальное сообщество, бесплатный старт."
     >
+
+    <meta property="og:title" content="Znakomy — найди людей на своей волне">
+    <meta property="og:description" content="Музыкальные знакомства в Хайфе: группы, джемы, записи и новые люди.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://znakomy.online/">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="assets/css/style.css?v=6">
+    <link rel="stylesheet" href="assets/css/style.css?v=7">
+    <link rel="stylesheet" href="assets/css/refresh.css?v=1">
 </head>
 
 <body>
@@ -45,6 +51,9 @@
             </nav>
 
             <div class="header-actions">
+                <button class="messages-button" id="openMessages" type="button" hidden>
+                    Сообщения <span id="unreadBadge" hidden>0</span>
+                </button>
                 <a
                     class="header-button"
                     href="#auth" data-open-auth
@@ -66,22 +75,27 @@
         </header>
 
         <main id="top">
+            <div class="signal-bar" aria-label="Статус проекта">
+                <span><i></i> ZNAKOMY BETA</span>
+                <p>Хайфа звучит лучше, когда мы играем вместе.</p>
+                <a href="#people">Смотреть анкеты ↘</a>
+            </div>
+
             <section class="hero">
                 <div class="hero-copy">
                     <div class="eyebrow">
-                        Знакомства музыкантов · Хайфа · 18+
+                        Локальное музыкальное сообщество · Хайфа · 18+
                     </div>
 
                     <h1>
-                        Найди людей
-                        <span>на своей волне</span>
+                        Твоя следующая
+                        <span>группа уже рядом</span>
                     </h1>
 
                     <p class="hero-description">
-                        Знакомься с музыкантами, вокалистами
-                        и любителями музыки. Находи друзей,
-                        участников группы и людей
-                        для совместных проектов.
+                        Один город. Тысячи музыкальных идей. Найди вокалиста,
+                        гитариста, партнёра для джема или людей, с которыми
+                        наконец захочется выйти на сцену.
                     </p>
 
                     <div class="hero-actions">
@@ -89,12 +103,12 @@
                             class="button button-primary"
                             href="#auth" data-open-auth
                         >
-                            Создать анкету
+                            Я в деле
                             <span>→</span>
                         </a>
 
                         <a class="button button-secondary" href="#people">
-                            Найти музыкантов
+                            Кто уже здесь
                         </a>
                     </div>
 
@@ -107,8 +121,8 @@
                         </div>
 
                         <div class="proof-text">
-                            <strong>Музыка объединяет</strong>
-                            <small>Общение, группы и проекты</small>
+                            <strong>Без свайпов ради свайпов</strong>
+                            <small>Люди, музыка и реальные встречи</small>
                         </div>
                     </div>
                 </div>
@@ -116,21 +130,21 @@
                 <div class="hero-media">
                     <img
                         src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1600&q=90"
-                        alt="Микрофон на сцене"
+                        alt="Музыкант на сцене в клубном свете"
                     >
 
                     <div class="hero-media-gradient"></div>
 
                     <div class="hero-media-badge">
                         <span></span>
-                        Музыкальная Хайфа
+                        HAIFA · LIVE
                     </div>
 
                     <div class="hero-media-caption">
-                        <small>Новая встреча</small>
+                        <small>Одна встреча</small>
 
                         <strong>
-                            может стать новой песней
+                            может стать началом группы
                         </strong>
                     </div>
                 </div>
@@ -179,7 +193,7 @@
                     <div class="section-heading row-heading">
                         <div>
                             <span class="section-label">Музыканты</span>
-                            <h2>Найди своих</h2>
+                            <h2>Люди, с которыми совпадёшь</h2>
                         </div>
 
                         <a
@@ -325,11 +339,21 @@
                 </div>
             </section>
 
+            <section class="manifesto-section" aria-label="Как это работает">
+                <p class="manifesto-kicker">Не алгоритм. Совпадение.</p>
+                <h2>Музыка начинается<br>с простого <em>«привет»</em>.</h2>
+                <div class="steps-grid">
+                    <article><span>01</span><h3>Расскажи о себе</h3><p>Инструменты, жанры и кого ты ищешь.</p></article>
+                    <article><span>02</span><h3>Найди совпадение</h3><p>Смотри анкеты музыкантов рядом.</p></article>
+                    <article><span>03</span><h3>Встретьтесь офлайн</h3><p>Джем, репетиция или первая запись.</p></article>
+                </div>
+            </section>
+
             <section class="services-section" id="services">
                 <div class="section-heading row-heading">
                     <div>
                         <span class="section-label">Возможности</span>
-                        <h2>Что можно найти</h2>
+                        <h2>Зачем мы здесь</h2>
                     </div>
 
                     <a href="#contacts">Связаться →</a>
@@ -366,12 +390,11 @@
                 <div class="contact-copy">
                     <span class="section-label">Контакты</span>
 
-                    <h2>Присоединяйся к проекту</h2>
+                    <h2>Хватит играть в одиночку.</h2>
 
                     <p>
-                        Напиши, кого ты ищешь:
-                        музыканта, вокалиста,
-                        друзей или участников группы.
+                        Создай анкету за пару минут. Возможно, именно тебя
+                        сейчас не хватает чьей-то будущей группе.
                     </p>
 
                     <div class="contact-list">
@@ -393,6 +416,40 @@
             </section>
         </main>
 
+        <aside class="chat-drawer" id="chatDrawer" aria-hidden="true">
+            <div class="chat-backdrop" data-close-chat></div>
+            <section class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+                <header class="chat-header">
+                    <div>
+                        <small>ZNAKOMY · DIRECT</small>
+                        <h2 id="chatTitle">Сообщения</h2>
+                    </div>
+                    <button type="button" class="chat-close" data-close-chat aria-label="Закрыть сообщения">×</button>
+                </header>
+                <div class="chat-layout">
+                    <div class="conversation-list" id="conversationList">
+                        <p class="chat-empty">Здесь появятся ваши диалоги.</p>
+                    </div>
+                    <div class="message-area" id="messageArea">
+                        <div class="chat-welcome" id="chatWelcome">
+                            <span>♪</span>
+                            <h3>Начните разговор</h3>
+                            <p>Выберите диалог или откройте анкету музыканта.</p>
+                        </div>
+                        <div class="active-chat" id="activeChat" hidden>
+                            <div class="active-chat-person" id="activeChatPerson"></div>
+                            <div class="message-stream" id="messageStream" aria-live="polite"></div>
+                            <form class="message-form" id="messageForm">
+                                <textarea name="message" rows="1" maxlength="2000" placeholder="Напишите сообщение…" required></textarea>
+                                <button type="submit" aria-label="Отправить сообщение">↑</button>
+                            </form>
+                            <p class="chat-status" id="chatStatus"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
 
         <div class="modal" id="authModal" aria-hidden="true">
             <div class="modal-backdrop" data-close-modal></div>
@@ -410,7 +467,8 @@
                         <label>Email<input name="email" type="email" autocomplete="email" placeholder="zvukor1980@gmail.com" required></label>
                         <label>Пароль<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
                         <button type="submit" class="app-primary" id="authSubmit">Зарегистрироваться</button>
-                        <button type="button" class="text-button" id="resetPassword">Забыли пароль?</button>\n                        <button type="button" class="text-button" id="resendConfirmation">Отправить подтверждение ещё раз</button>
+                        <button type="button" class="text-button" id="resetPassword">Забыли пароль?</button>
+                        <button type="button" class="text-button" id="resendConfirmation">Отправить подтверждение ещё раз</button>
                         <p class="form-status" id="authStatus" aria-live="polite"></p>
                     </form>
                 </div>
@@ -458,6 +516,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/app.js?v=6"></script>
+    <script src="assets/js/app.js?v=7"></script>
 </body>
 </html>

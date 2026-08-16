@@ -30,6 +30,9 @@ const profileForm = $("#profileForm");
 let authMode = "signup";
 let currentUser = null;
 let currentProfile = null;
+let activeConversation = null;
+let messageChannel = null;
+let conversationPartners = new Map();
 
 function showMessage(target, message, error = false) {
   target.textContent = message;
@@ -56,7 +59,6 @@ function setAuthMode(mode) {
   $$("[data-auth-mode]").forEach((button) => button.classList.toggle("active", button.dataset.authMode === mode));
   $("#authTitle").textContent = mode === "signup" ? "Регистрация нового пользователя" : "Вход в личный кабинет";
   $("#authSubmit").textContent = mode === "signup" ? "Зарегистрироваться" : "Войти";
-  if (mode === "signin" && !authForm.email.value) authForm.email.value = "zvukor1980@gmail.com";
   $("#nameField").hidden = mode !== "signup";
   authForm.display_name.required = mode === "signup";
   authForm.password.autocomplete = mode === "signup" ? "new-password" : "current-password";
@@ -104,7 +106,7 @@ $("#resendConfirmation").addEventListener("click", async () => {
   const {error} = await db.auth.resend({
     type: "signup",
     email,
-    options: {emailRedirectTo: "https://zvukor1980-crypto.github.io/znakomy-site/"}
+    options: {emailRedirectTo: location.origin + location.pathname}
   });
   showMessage($("#authStatus"), error ? error.message : "Новое письмо отправлено. Используйте самую свежую ссылку.", Boolean(error));
 });
@@ -120,9 +122,10 @@ async function showAccount(user) {
   currentUser = user;
   authView.hidden = true;
   profileView.hidden = false;
-  const {data, error} = await db.from("profiles").select("*").eq("id", user.id).single();
+  const {data, error} = await db.from("profiles").select("id,display_name,birth_year,city,instruments,genres,looking_for,bio,avatar_path,status,moderation_note,created_at,updated_at,approved_at").eq("id", user.id).single();
   if (error) return showMessage($("#profileStatus"), error.message, true);
   currentProfile = data;
+  $("#openMessages").hidden = false;
   for (const name of ["display_name","birth_year","city","bio"]) {
     profileForm.elements[name].value = data[name] ?? "";
   }
@@ -181,6 +184,8 @@ $("#submitReview").addEventListener("click", async () => {
 $("#logoutButton").addEventListener("click", async () => {
   await db.auth.signOut();
   currentUser = null; currentProfile = null;
+  $("#openMessages").hidden = true;
+  closeChatDrawer();
   profileView.hidden = true; authView.hidden = false;
   setAuthMode("signin");
 });
@@ -192,10 +197,11 @@ function photoUrl(path) {
 function profileCard(profile) {
   const tags = [...(profile.instruments || []), ...(profile.genres || [])].slice(0, 3).map(escapeHtml).join(" · ");
   const image = photoUrl(profile.avatar_path);
-  return `<article class="musician-card member-card" data-tags="${escapeHtml((profile.instruments || []).join(" ").toLowerCase())}">
+  return `<article class="musician-card member-card" data-profile-id="${profile.id}" data-profile-name="${escapeHtml(profile.display_name)}" data-tags="${escapeHtml((profile.instruments || []).join(" ").toLowerCase())}">
     ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(profile.display_name)}" loading="lazy">` : '<div class="avatar-placeholder">♪</div>'}
     <div class="card-overlay"></div>
     <div class="card-caption"><strong>${escapeHtml(profile.display_name)}</strong><span>${tags || escapeHtml(profile.city)}</span></div>
+    <button class="start-chat" type="button" aria-label="Написать ${escapeHtml(profile.display_name)}">Написать →</button>
   </article>`;
 }
 async function loadProfiles() {
@@ -207,6 +213,12 @@ async function loadProfiles() {
   $("#memberCount").textContent = data.length ? "Анкет: " + data.length : "Пока нет опубликованных анкет";
   if (data.length) $("#profileGrid").innerHTML = data.map(profileCard).join("");
 }
+$("#profileGrid").addEventListener("click", async (event) => {
+  const button = event.target.closest(".start-chat");
+  if (!button) return;
+  const card = button.closest(".member-card");
+  await startConversation(card.dataset.profileId, card.dataset.profileName);
+});
 $$(".filter-button").forEach((button) => button.addEventListener("click", () => {
   $$(".filter-button").forEach((item) => item.classList.remove("active"));
   button.classList.add("active");
@@ -217,13 +229,13 @@ $$(".filter-button").forEach((button) => button.addEventListener("click", () => 
 }));
 
 async function loadAdminQueue() {
-  const {data, error} = await db.from("profiles").select("id,email,display_name,city,instruments,genres,bio,status,created_at").in("status",["pending","rejected","suspended"]).order("created_at",{ascending:true});
+  const {data, error} = await db.from("profiles").select("id,display_name,city,instruments,genres,bio,status,created_at").in("status",["pending","rejected","suspended"]).order("created_at",{ascending:true});
   const queue = $("#adminQueue");
   if (error) return queue.textContent = error.message;
   if (!data.length) return queue.innerHTML = "<p>Новых анкет на проверку нет.</p>";
   queue.innerHTML = data.map((profile) => `<article class="admin-item">
-    <strong>${escapeHtml(profile.display_name || profile.email)}</strong>
-    <small>${escapeHtml(profile.email)} · ${escapeHtml(profile.city)} · ${escapeHtml(statusNames[profile.status])}</small>
+    <strong>${escapeHtml(profile.display_name || "Без имени")}</strong>
+    <small>${escapeHtml(profile.city)} · ${escapeHtml(statusNames[profile.status])}</small>
     <p>${escapeHtml(profile.bio)}</p>
     <div><button data-moderate="approved" data-id="${profile.id}">Одобрить</button><button data-moderate="rejected" data-id="${profile.id}">Вернуть</button><button data-moderate="suspended" data-id="${profile.id}">Заблокировать</button></div>
   </article>`).join("");
@@ -234,8 +246,126 @@ async function loadAdminQueue() {
   }));
 }
 
+const chatDrawer = $("#chatDrawer");
+function openChatDrawer() {
+  chatDrawer.classList.add("open");
+  chatDrawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("chat-open");
+}
+function closeChatDrawer() {
+  chatDrawer.classList.remove("open");
+  chatDrawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("chat-open");
+}
+$("#openMessages").addEventListener("click", async () => {
+  openChatDrawer();
+  await loadConversations();
+});
+$$('[data-close-chat]').forEach((button) => button.addEventListener("click", closeChatDrawer));
+
+async function startConversation(targetId, targetName) {
+  if (!currentUser) {
+    setAuthMode("signin");
+    openModal();
+    showMessage($("#authStatus"), "Войдите, чтобы написать музыканту.");
+    return;
+  }
+  if (targetId === currentUser.id) {
+    openChatDrawer();
+    return showMessage($("#chatStatus"), "Это ваша анкета.", true);
+  }
+  const {data, error} = await db.rpc("start_conversation", {target_id: targetId});
+  if (error) {
+    openChatDrawer();
+    return showMessage($("#chatStatus"), error.message || "Не удалось начать диалог.", true);
+  }
+  openChatDrawer();
+  await loadConversations();
+  await selectConversation(data, {id: targetId, display_name: targetName});
+}
+
+async function loadConversations() {
+  if (!currentUser) return;
+  const list = $("#conversationList");
+  list.innerHTML = '<p class="chat-empty">Загружаю диалоги…</p>';
+  const {data: conversations, error} = await db.from("conversations")
+    .select("id,user_a,user_b,last_message_at")
+    .order("last_message_at", {ascending:false});
+  if (error) return list.innerHTML = `<p class="chat-empty">${escapeHtml(error.message)}</p>`;
+  if (!conversations.length) return list.innerHTML = '<p class="chat-empty">Пока нет диалогов.<br>Выберите музыканта и нажмите «Написать».</p>';
+  const partnerIds = [...new Set(conversations.map((item) => item.user_a === currentUser.id ? item.user_b : item.user_a))];
+  const {data: profiles} = await db.from("profiles").select("id,display_name,avatar_path,instruments").in("id", partnerIds);
+  conversationPartners = new Map((profiles || []).map((profile) => [profile.id, profile]));
+  list.innerHTML = conversations.map((conversation) => {
+    const partnerId = conversation.user_a === currentUser.id ? conversation.user_b : conversation.user_a;
+    const partner = conversationPartners.get(partnerId) || {id:partnerId,display_name:"Музыкант"};
+    const image = photoUrl(partner.avatar_path);
+    return `<button class="conversation-item" type="button" data-conversation-id="${conversation.id}" data-partner-id="${partnerId}">
+      ${image ? `<img src="${escapeHtml(image)}" alt="">` : '<span class="conversation-avatar">♪</span>'}
+      <span><strong>${escapeHtml(partner.display_name)}</strong><small>${escapeHtml((partner.instruments || []).slice(0,2).join(" · ") || "Открыть диалог")}</small></span>
+    </button>`;
+  }).join("");
+  $$(".conversation-item", list).forEach((button) => button.addEventListener("click", () => {
+    selectConversation(button.dataset.conversationId, conversationPartners.get(button.dataset.partnerId));
+  }));
+}
+
+async function selectConversation(conversationId, partner = {}) {
+  activeConversation = conversationId;
+  $("#chatWelcome").hidden = true;
+  $("#activeChat").hidden = false;
+  $("#activeChatPerson").innerHTML = `<strong>${escapeHtml(partner?.display_name || "Музыкант")}</strong><small>личный диалог · только для вас двоих</small>`;
+  $$(".conversation-item").forEach((item) => item.classList.toggle("active", item.dataset.conversationId === conversationId));
+  showMessage($("#chatStatus"), "");
+  const {data, error} = await db.from("messages").select("id,sender_id,body,created_at,read_at")
+    .eq("conversation_id", conversationId).order("created_at", {ascending:true}).limit(300);
+  if (error) return showMessage($("#chatStatus"), error.message, true);
+  renderMessages(data || []);
+  await db.rpc("mark_conversation_read", {target_conversation_id: conversationId});
+  if (messageChannel) await db.removeChannel(messageChannel);
+  messageChannel = db.channel(`messages:${conversationId}`)
+    .on("postgres_changes", {event:"INSERT", schema:"public", table:"messages", filter:`conversation_id=eq.${conversationId}`}, (payload) => {
+      appendMessage(payload.new);
+      if (payload.new.sender_id !== currentUser.id) db.rpc("mark_conversation_read", {target_conversation_id: conversationId});
+    }).subscribe();
+  $("#messageForm").message.focus();
+}
+
+function messageMarkup(message) {
+  const own = message.sender_id === currentUser.id;
+  const time = new Intl.DateTimeFormat("ru", {hour:"2-digit",minute:"2-digit"}).format(new Date(message.created_at));
+  return `<div class="message-bubble ${own ? "own" : "incoming"}" data-message-id="${message.id}"><p>${escapeHtml(message.body)}</p><small>${time}</small></div>`;
+}
+function renderMessages(messages) {
+  const stream = $("#messageStream");
+  stream.innerHTML = messages.length ? messages.map(messageMarkup).join("") : '<p class="dialog-start">Диалог начинается здесь. Поздоровайтесь 👋</p>';
+  stream.scrollTop = stream.scrollHeight;
+}
+function appendMessage(message) {
+  const stream = $("#messageStream");
+  $(".dialog-start", stream)?.remove();
+  if ($(`[data-message-id="${message.id}"]`, stream)) return;
+  stream.insertAdjacentHTML("beforeend", messageMarkup(message));
+  stream.scrollTop = stream.scrollHeight;
+}
+$("#messageForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!activeConversation || !currentUser) return;
+  const field = event.currentTarget.message;
+  const body = field.value.trim();
+  if (!body) return;
+  field.disabled = true;
+  const {data, error} = await db.from("messages").insert({conversation_id:activeConversation,sender_id:currentUser.id,body}).select().single();
+  field.disabled = false;
+  if (error) return showMessage($("#chatStatus"), error.message, true);
+  field.value = "";
+  appendMessage(data);
+  field.focus();
+  showMessage($("#chatStatus"), "");
+});
+
 db.auth.onAuthStateChange((_event, session) => {
-  if (session?.user) showAccount(session.user);
+  if (session?.user) setTimeout(() => showAccount(session.user), 0);
 });
 (async () => {
   await loadProfiles();
