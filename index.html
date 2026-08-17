@@ -43,6 +43,7 @@
     <link rel="stylesheet" href="assets/css/editorial.css?v=1">
     <link rel="stylesheet" href="assets/css/club.css?v=1">
     <link rel="stylesheet" href="assets/css/platform.css?v=5">
+    <link rel="stylesheet" href="assets/css/product.css?v=1">
 </head>
 
 <body>
@@ -55,10 +56,10 @@
 
             <nav class="main-nav" aria-label="Главная навигация">
                 <a href="#search">Поиск музыкантов</a>
-                <a href="#directions">Объявления</a>
+                <a href="#people">Музыканты</a>
                 <a href="#directions">Группы</a>
-                <a href="#directions">Студии</a>
-                <a href="#directions">Мероприятия</a>
+                <a href="#directions">Джемы</a>
+                <a href="#directions">Объявления</a>
                 <a href="#market">Маркет</a>
             </nav>
 
@@ -93,8 +94,9 @@
                 <div class="platform-hero-shade"></div>
                 <div class="platform-hero-copy">
                     <span class="hero-city">Музыканты Хайфы · 18+</span>
-                    <h1>Найди своих<br>музыкантов<br>в Хайфе</h1>
-                    <p>ZNAKOMY — площадка для музыкантов Хайфы. Находи участников в группу, людей для джемов и новых проектов.</p>
+                    <h1>Найди тех,<br>с кем будешь<br>играть.</h1>
+                    <p>ZNAKOMY — музыкальное сообщество Хайфы. Находи людей в группу, собирай джемы и начинай новые проекты.</p>
+                    <div class="hero-pills" aria-label="Возможности ZNAKOMY"><span>Музыканты</span><span>Группы</span><span>Джемы</span><span>Direct</span></div>
                     <div class="platform-hero-actions">
                         <a href="#search" class="platform-primary">⌕&nbsp; Найти музыкантов</a>
                         <a href="#auth" data-open-auth data-auth-open-mode="signup" class="platform-secondary">Создать анкету</a>
@@ -120,13 +122,12 @@
             </section>
 
             <section class="platform-directions" id="directions">
-                <a href="#auth" data-open-auth><i>01</i><h3>Создавай группы</h3><p>Находи единомышленников для новых музыкальных проектов.</p><span>Создать →</span></a>
-                <a href="#auth" data-open-auth><i>02</i><h3>Джемы и события</h3><p>Собирай людей на джемы, концерты и музыкальные встречи.</p><span>Присоединиться →</span></a>
-                <a href="mailto:digitalaleksei@gmail.com?subject=Студия%20для%20ZNAKOMY"><i>03</i><h3>Репетиционные студии</h3><p>Добавляй реальные площадки Хайфы без выдуманных данных.</p><span>Добавить студию →</span></a>
-                <a href="#auth" data-open-auth><i>04</i><h3>Объявления</h3><p>Ищи музыкантов, проекты, оборудование и услуги.</p><span>Разместить →</span></a>
-                <a class="market-card" id="market" href="#auth" data-open-auth data-auth-open-mode="signin"><i>05 · MARKET</i><h3>Продажа инструментов</h3><p>Гитары, клавиши, барабаны, студийная и концертная аппаратура — размещай объявление после входа.</p><span>Продать или купить →</span></a>
-                <a class="repair-card" href="mailto:digitalaleksei@gmail.com?subject=%D0%A0%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%20%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9%20%D0%B0%D0%BF%D0%BF%D0%B0%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%8B%20ZNAKOMY&body=%D0%A7%D1%82%D0%BE%20%D0%BD%D1%83%D0%B6%D0%BD%D0%BE%20%D0%BE%D1%82%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%3A%20%0A%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%3A%20%0A%D0%93%D0%BE%D1%80%D0%BE%D0%B4%3A%20%D0%A5%D0%B0%D0%B9%D1%84%D0%B0%0A%D0%A2%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%3A%20"><i>06 · SERVICE</i><h3>Ремонт аппаратуры</h3><p>Инструменты, усилители, микрофоны, пульты и студийная техника. Опиши неисправность мастеру.</p><span>Оставить заявку →</span></a>
-                <a class="lessons-card" href="mailto:digitalaleksei@gmail.com?subject=%D0%9E%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D0%B5%20ZNAKOMY&body=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%D1%83%D1%87%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%B8%D0%B3%D1%80%D0%B0%D1%82%D1%8C%20%D0%BD%D0%B0%3A%20%0A%D0%9C%D0%BE%D0%B9%20%D1%83%D1%80%D0%BE%D0%B2%D0%B5%D0%BD%D1%8C%3A%20%0A%D0%92%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%3A%20%0A%D0%93%D0%BE%D1%80%D0%BE%D0%B4%3A%20%D0%A5%D0%B0%D0%B9%D1%84%D0%B0"><i>07 · ACADEMY</i><h3>Обучение музыке</h3><p>Найди преподавателя по вокалу, гитаре, клавишам или барабанам в Хайфе.</p><span>Подобрать преподавателя →</span></a>
+                <div class="direction-intro"><small>Больше возможностей</small><h2>ZNAKOMY растёт вместе с сообществом</h2><p>Главные функции — анкеты, поиск и Direct — уже работают. Следующие разделы подключаются к той же учётной записи.</p></div>
+                <article class="direction-card"><i>01</i><span class="feature-state">СКОРО</span><h3>Группы</h3><p>Страницы коллективов, состав, жанры и поиск недостающих участников.</p></article>
+                <article class="direction-card"><i>02</i><span class="feature-state">СКОРО</span><h3>Джемы и события</h3><p>Музыкальные встречи, репетиции и концерты в Хайфе.</p></article>
+                <article class="direction-card"><i>03</i><span class="feature-state">СКОРО</span><h3>Объявления</h3><p>Ищу музыканта, ищу группу, проект, работа и музыкальные услуги.</p></article>
+                <article class="direction-card market-card" id="market"><i>04 · MARKET</i><span class="feature-state">СКОРО</span><h3>Инструменты и аппаратура</h3><p>Локальная музыкальная барахолка Хайфы с объявлениями от участников сообщества.</p></article>
+                <a class="direction-card repair-card" href="mailto:digitalaleksei@gmail.com?subject=Ремонт%20музыкальной%20аппаратуры%20ZNAKOMY"><i>05 · SERVICE</i><span class="feature-state live">РАБОТАЕТ</span><h3>Ремонт аппаратуры</h3><p>Опиши неисправность музыкального или студийного оборудования мастеру.</p><b>Оставить заявку →</b></a>
             </section>
 
             <section class="platform-cta"><div><h2>Ты музыкант? Присоединяйся.</h2><p>Здесь тебя поймут.</p></div><button type="button" data-open-auth data-auth-open-mode="signup">Создать анкету бесплатно</button></section>
@@ -196,6 +197,17 @@
                         <p class="form-status" id="authStatus" aria-live="polite"></p>
                     </form>
                 </div>
+                <div id="recoveryView" hidden>
+                    <span class="section-label">Безопасность</span>
+                    <h2>Новый пароль</h2>
+                    <p class="modal-lead">Придумайте новый пароль для аккаунта ZNAKOMY.</p>
+                    <form id="recoveryForm" class="app-form">
+                        <label>Новый пароль<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+                        <label>Повторите пароль<input name="confirm_password" type="password" minlength="8" autocomplete="new-password" required></label>
+                        <button type="submit" class="app-primary" id="recoverySubmit">Сохранить новый пароль</button>
+                        <p class="form-status" id="recoveryStatus" aria-live="polite"></p>
+                    </form>
+                </div>
                 <div id="profileView" hidden>
                     <span class="section-label">Личный кабинет</span>
                     <div class="profile-heading"><h2>Моя анкета</h2><button type="button" class="text-button" id="logoutButton">Выйти</button></div>
@@ -225,6 +237,14 @@
                 </div>
             </section>
         </div>
+        <nav class="mobile-dock" aria-label="Навигация приложения">
+            <a href="#top"><span>⌂</span><small>Главная</small></a>
+            <a href="#search"><span>⌕</span><small>Поиск</small></a>
+            <a href="#auth" class="mobile-create" data-open-auth data-auth-open-mode="signup"><span>＋</span><small>Анкета</small></a>
+            <button type="button" id="mobileMessages"><span>✉</span><small>Direct</small></button>
+            <a href="#auth" data-open-auth data-auth-open-mode="signin"><span>○</span><small>Профиль</small></a>
+        </nav>
+
         <footer class="site-footer">
             <a class="footer-logo" href="#top">
                 ZNAKOMY
