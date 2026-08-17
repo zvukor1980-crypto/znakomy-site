@@ -9,12 +9,12 @@
   css('assets/css/community.css?build=20260817-2010');
   css('assets/css/profile-flow.css?build=20260817-2010');
   css('assets/css/admin-panel.css?build=20260817-2010');
-  css('assets/css/public-chat.css?build=20260817-2004');
+  css('assets/css/public-chat.css?build=20260817-2030');
   js('assets/js/community.js?build=20260817-2010');
   js('assets/js/navigation.js?build=20260817-2010');
   js('assets/js/profile-flow.js?build=20260817-2010');
   js('assets/js/admin-panel.js?build=20260817-2010');
   js('assets/js/direct-fix.js?build=20260817-2010');
-  js('assets/js/notifications.js?build=20260817-2002');
-  js('assets/js/public-chat.js?build=20260817-2004');
+  js('assets/js/public-chat.js?build=20260817-2030');
+  js('assets/js/notifications.js?build=20260817-2015');
 })();
