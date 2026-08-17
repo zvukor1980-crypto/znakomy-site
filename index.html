@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="assets/css/club.css?v=1">
     <link rel="stylesheet" href="assets/css/platform.css?v=5">
     <link rel="stylesheet" href="assets/css/product.css?v=1">
+    <link rel="stylesheet" href="assets/css/layout-fix.css?v=20260817-2">
 </head>
 
 <body>
@@ -70,7 +71,9 @@
                 <a class="header-login" href="#auth" data-open-auth data-auth-open-mode="signin">Войти</a>
                 <a
                     class="header-button"
-                    href="#auth" data-open-auth data-auth-open-mode="signup"
+                    href="#auth"
+                    data-open-auth
+                    data-auth-open-mode="signup"
                 >
                     Регистрация
                 </a>
@@ -181,26 +184,26 @@
             <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
                 <button class="modal-close" type="button" data-close-modal aria-label="Закрыть">×</button>
                 <div id="authView">
-                    <span class="section-label">Личный кабинет</span>
-                    <h2 id="authTitle">Регистрация</h2>
+                    <span class="modal-eyebrow">ZNAKOMY ACCOUNT</span>
+                    <h2 id="authTitle">Регистрация нового пользователя</h2>
                     <div class="auth-tabs">
                         <button type="button" class="active" data-auth-mode="signup">Регистрация</button>
-                        <button type="button" data-auth-mode="signin">Вход</button>
+                        <button type="button" data-auth-mode="signin">Войти</button>
                     </div>
                     <form id="authForm" class="app-form">
                         <label id="nameField">Имя<input name="display_name" maxlength="80" autocomplete="name" required></label>
                         <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
                         <label>Пароль<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
                         <button type="submit" class="app-primary" id="authSubmit">Зарегистрироваться</button>
-                        <button type="button" class="text-button" id="resetPassword">Забыли пароль?</button>
+                        <button type="button" class="text-button" id="resetPassword" hidden>Забыли пароль?</button>
                         <button type="button" class="text-button" id="resendConfirmation">Отправить подтверждение ещё раз</button>
                         <p class="form-status" id="authStatus" aria-live="polite"></p>
                     </form>
                 </div>
                 <div id="recoveryView" hidden>
-                    <span class="section-label">Безопасность</span>
+                    <span class="modal-eyebrow">ZNAKOMY SECURITY</span>
                     <h2>Новый пароль</h2>
-                    <p class="modal-lead">Придумайте новый пароль для аккаунта ZNAKOMY.</p>
+                    <p class="modal-lead">Придумайте новый пароль для входа в ZNAKOMY.</p>
                     <form id="recoveryForm" class="app-form">
                         <label>Новый пароль<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
                         <label>Повторите пароль<input name="confirm_password" type="password" minlength="8" autocomplete="new-password" required></label>
@@ -209,14 +212,12 @@
                     </form>
                 </div>
                 <div id="profileView" hidden>
-                    <span class="section-label">Личный кабинет</span>
-                    <div class="profile-heading"><h2>Моя анкета</h2><button type="button" class="text-button" id="logoutButton">Выйти</button></div>
-                    <p class="profile-state" id="profileState"></p>
-                    <form id="profileForm" class="app-form">
-                        <div class="form-row">
-                            <label>Имя<input name="display_name" maxlength="80" required></label>
-                            <label>Год рождения<input name="birth_year" type="number" min="1900" max="2008" required></label>
-                        </div>
+                    <span class="modal-eyebrow">ЛИЧНЫЙ КАБИНЕТ</span>
+                    <h2>Ваша анкета</h2>
+                    <div class="profile-state" id="profileState"></div>
+                    <form id="profileForm" class="app-form profile-form">
+                        <label>Имя<input name="display_name" maxlength="80" required></label>
+                        <label>Год рождения<input name="birth_year" type="number" min="1900" max="2008" required></label>
                         <label>Город<input name="city" value="Хайфа" required></label>
                         <label>Инструменты / роль<input name="instruments" placeholder="Гитара, вокал, барабаны"></label>
                         <label>Жанры<input name="genres" placeholder="Rock, Jazz, Indie"></label>
@@ -262,6 +263,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/app.js?v=12"></script>
-    <script src="assets/js/product.js?v=1"></script>
+    <script src="assets/js/product.js?v=20260817-2"></script>
 </body>
 </html>
