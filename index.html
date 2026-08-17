@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="assets/css/luxury-fix.css?v=2">
     <link rel="stylesheet" href="assets/css/editorial.css?v=1">
     <link rel="stylesheet" href="assets/css/club.css?v=1">
+    <link rel="stylesheet" href="assets/css/platform.css?v=1">
 </head>
 
 <body>
@@ -52,8 +53,11 @@
             </a>
 
             <nav class="main-nav" aria-label="Главная навигация">
-                <a href="#people">Музыканты</a>
-                <a href="#how">Как это работает</a>
+                <a href="#search">Поиск музыкантов</a>
+                <a href="#directions">Объявления</a>
+                <a href="#directions">Группы</a>
+                <a href="#directions">Студии</a>
+                <a href="#directions">Мероприятия</a>
             </nav>
 
             <div class="header-actions">
@@ -64,7 +68,7 @@
                     class="header-button"
                     href="#auth" data-open-auth
                 >
-                    Присоединиться
+                    Регистрация
                 </a>
 
                 <button
@@ -80,63 +84,46 @@
             </div>
         </header>
 
-        <main id="top" class="club-main">
-            <section class="club-intro">
-                <div class="club-number">001 / HAIFA</div>
-                <div class="club-stage">
-                    <h1>ZNAKOMY</h1>
-                    <div class="club-visual" aria-label="Музыканты и инструменты">
-                        <figure class="visual-main">
-                            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=88" alt="Вокалист выступает на сцене">
-                            <figcaption>VOCAL / LIVE</figcaption>
-                        </figure>
-                        <figure class="visual-top">
-                            <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=800&q=88" alt="Вокалист у микрофона">
-                            <figcaption>VOICE</figcaption>
-                        </figure>
-                        <figure class="visual-bottom">
-                            <img src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&w=800&q=88" alt="Музыкант играет на гитаре">
-                            <figcaption>GUITAR</figcaption>
-                        </figure>
+        <main id="top" class="platform-main">
+            <section class="platform-hero">
+                <img src="assets/images/znakomy-studio-haifa-v2.jpg" alt="Группа музыкантов репетирует ночью на фоне Хайфы">
+                <div class="platform-hero-shade"></div>
+                <div class="platform-hero-copy">
+                    <span class="hero-city">Музыканты Хайфы · 18+</span>
+                    <h1>Найди своих<br>музыкантов<br>в Хайфе</h1>
+                    <p>ZNAKOMY — площадка для музыкантов Хайфы. Находи участников в группу, людей для джемов и новых проектов.</p>
+                    <div class="platform-hero-actions">
+                        <a href="#search" class="platform-primary">⌕&nbsp; Найти музыкантов</a>
+                        <a href="#auth" data-open-auth class="platform-secondary">Создать анкету</a>
                     </div>
                 </div>
-                <div class="club-intro-bottom">
-                    <p>Место, где музыканты<br>находят друг друга.</p>
-                    <a class="club-arrow" href="#people" aria-label="Смотреть музыкантов">↓</a>
-                    <a class="club-join" href="#auth" data-open-auth>Войти в клуб <span>↗</span></a>
+            </section>
+
+            <section class="platform-search" id="search">
+                <div class="search-title"><div><small>Поиск по реальным анкетам</small><h2>Кого ищешь?</h2></div><span id="memberCount">Загрузка анкет…</span></div>
+                <form id="musicianSearch" class="search-controls">
+                    <label><span>Инструмент</span><select name="instrument"><option value="">Любой</option><option>Гитара</option><option>Бас</option><option>Барабаны</option><option>Вокал</option><option>Клавиши</option></select></label>
+                    <label><span>Жанр</span><select name="genre"><option value="">Любой</option><option>Rock</option><option>Metal</option><option>Pop</option><option>Jazz</option><option>Blues</option><option>Indie</option></select></label>
+                    <button type="submit">⌕&nbsp; Найти</button>
+                </form>
+                <div class="filter-row" aria-label="Популярные запросы">
+                    <button class="filter-button active" type="button">Все</button><button class="filter-button" type="button">Вокал</button><button class="filter-button" type="button">Гитара</button><button class="filter-button" type="button">Барабаны</button><button class="filter-button" type="button">Клавиши</button>
                 </div>
             </section>
 
-            <section class="content-grid club-directory" id="people">
-                <div class="directory-head">
-                    <div><span>Сейчас в клубе</span><h2>Найди свой звук.</h2></div>
-                    <div class="member-toolbar" id="memberToolbar"><span id="memberCount">Загрузка анкет…</span></div>
-                </div>
-                <div class="filter-row" aria-label="Фильтр музыкантов">
-                    <button class="filter-button active" type="button">Все</button>
-                    <button class="filter-button" type="button">Вокал</button>
-                    <button class="filter-button" type="button">Гитара</button>
-                    <button class="filter-button" type="button">Барабаны</button>
-                    <button class="filter-button" type="button">Клавиши</button>
-                </div>
-                <div class="musician-gallery" id="profileGrid">
-                    <div class="profile-loading">Ищем музыкантов рядом…</div>
-                </div>
+            <section class="content-grid platform-people" id="people">
+                <div class="people-heading"><div><small>Сообщество</small><h2>Музыканты Хайфы</h2></div><a href="#auth" data-open-auth>Создать анкету →</a></div>
+                <div class="musician-gallery" id="profileGrid"><div class="profile-loading">Ищем музыкантов рядом…</div></div>
             </section>
 
-            <section class="club-method" id="how" aria-label="Как это работает">
-                <p class="method-intro">Никаких свайпов ради свайпов.<br>Только музыка и живой разговор.</p>
-                <div class="method-list">
-                    <article><b>01</b><h3>Покажи себя</h3><p>Создай короткую анкету.</p></article>
-                    <article><b>02</b><h3>Найди человека</h3><p>Выбери близкого по звуку.</p></article>
-                    <article><b>03</b><h3>Напиши</h3><p>Начни диалог прямо здесь.</p></article>
-                </div>
+            <section class="platform-directions" id="directions">
+                <a href="#auth" data-open-auth><i>01</i><h3>Создавай группы</h3><p>Находи единомышленников для новых музыкальных проектов.</p><span>Создать →</span></a>
+                <a href="#auth" data-open-auth><i>02</i><h3>Джемы и события</h3><p>Собирай людей на джемы, концерты и музыкальные встречи.</p><span>Присоединиться →</span></a>
+                <a href="mailto:digitalaleksei@gmail.com?subject=Студия%20для%20ZNAKOMY"><i>03</i><h3>Репетиционные студии</h3><p>Добавляй реальные площадки Хайфы без выдуманных данных.</p><span>Добавить студию →</span></a>
+                <a href="#auth" data-open-auth><i>04</i><h3>Объявления</h3><p>Ищи музыкантов, проекты, оборудование и услуги.</p><span>Разместить →</span></a>
             </section>
 
-            <section class="club-final">
-                <p>Тебя уже<br>могут искать.</p>
-                <button type="button" data-open-auth>Создать анкету <span>↗</span></button>
-            </section>
+            <section class="platform-cta"><div><h2>Ты музыкант? Присоединяйся.</h2><p>Здесь тебя поймут.</p></div><button type="button" data-open-auth>Создать анкету бесплатно</button></section>
         </main>
 
         <aside class="chat-drawer" id="chatDrawer" aria-hidden="true">
@@ -239,6 +226,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/app.js?v=8"></script>
+    <script src="assets/js/app.js?v=9"></script>
 </body>
 </html>

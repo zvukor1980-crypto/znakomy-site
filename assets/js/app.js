@@ -216,8 +216,12 @@ function profileCard(profile) {
     <button class="start-chat" type="button" aria-label="Написать ${escapeHtml(profile.display_name)}">Написать →</button>
   </article>`;
 }
-async function loadProfiles() {
-  const {data, error} = await db.from("profiles").select("id,display_name,city,instruments,genres,looking_for,bio,avatar_path,created_at").eq("status","approved").order("created_at",{ascending:false});
+async function loadProfiles(filters = {}) {
+  const instrumentMap = {"Гитара":["Гитара","Guitar"],"Бас":["Бас","Bass"],"Барабаны":["Барабаны","Drums"],"Вокал":["Вокал","Vocal","Vocals"],"Клавиши":["Клавиши","Keys","Keyboard"]};
+  let query = db.from("profiles").select("id,display_name,city,instruments,genres,looking_for,bio,avatar_path,created_at").eq("status","approved");
+  if (filters.instrument) query = query.overlaps("instruments", instrumentMap[filters.instrument] || [filters.instrument]);
+  if (filters.genre) query = query.contains("genres", [filters.genre]);
+  const {data, error} = await query.order("created_at",{ascending:false});
   if (error) {
     $("#memberCount").textContent = "Не удалось загрузить анкеты";
     $("#profileGrid").innerHTML = '<div class="profile-loading">Попробуйте обновить страницу чуть позже.</div>';
@@ -234,14 +238,22 @@ $("#profileGrid").addEventListener("click", async (event) => {
   const card = button.closest(".member-card");
   await startConversation(card.dataset.profileId, card.dataset.profileName);
 });
-$$(".filter-button").forEach((button) => button.addEventListener("click", () => {
+$$(".filter-button").forEach((button) => button.addEventListener("click", async () => {
   $$(".filter-button").forEach((item) => item.classList.remove("active"));
   button.classList.add("active");
   const value = button.textContent.trim().toLowerCase();
-  $$(".member-card").forEach((card) => {
-    card.hidden = value !== "все" && !card.dataset.tags.includes(value);
-  });
+  const label = button.textContent.trim();
+  const searchForm = $("#musicianSearch");
+  if (searchForm) searchForm.instrument.value = value === "все" ? "" : label;
+  await loadProfiles({instrument:value === "все" ? "" : label,genre:searchForm?.genre.value || ""});
 }));
+
+const musicianSearch = $("#musicianSearch");
+if (musicianSearch) musicianSearch.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await loadProfiles({instrument:event.currentTarget.instrument.value,genre:event.currentTarget.genre.value});
+  $("#people")?.scrollIntoView({behavior:"smooth",block:"start"});
+});
 
 async function loadAdminQueue() {
   const {data, error} = await db.from("profiles").select("id,display_name,city,instruments,genres,bio,status,created_at").in("status",["pending","rejected","suspended"]).order("created_at",{ascending:true});
