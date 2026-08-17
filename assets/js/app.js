@@ -45,6 +45,8 @@ let currentProfile = null;
 let activeConversation = null;
 let messageChannel = null;
 let conversationPartners = new Map();
+let loadedProfiles = new Map();
+let unreadChannel = null;
 
 function showMessage(target, message, error = false) {
   target.textContent = message;
@@ -61,10 +63,12 @@ function closeModal() {
   document.body.classList.remove("modal-open");
 }
 $$("[data-open-auth], a[href='#auth']").forEach((button) => button.addEventListener("click", (event) => {
-  event.preventDefault(); openModal();
+  event.preventDefault();
+  if (!currentUser) setAuthMode(button.dataset.authOpenMode || authMode);
+  openModal();
 }));
 $$("[data-close-modal]").forEach((button) => button.addEventListener("click", closeModal));
-document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeModal(); });
+document.addEventListener("keydown", (event) => { if (event.key === "Escape") { closeModal(); closeProfilePreview(); } });
 
 function setAuthMode(mode) {
   authMode = mode;
@@ -137,6 +141,8 @@ async function showAccount(user) {
   const {data, error} = await db.from("profiles").select("id,display_name,birth_year,city,instruments,genres,looking_for,bio,avatar_path,status,moderation_note,created_at,updated_at,approved_at").eq("id", user.id).single();
   if (error) return showMessage($("#profileStatus"), error.message, true);
   currentProfile = data;
+  $(".header-button").textContent = "Моя анкета";
+  $(".header-login").hidden = true;
   $("#openMessages").hidden = false;
   for (const name of ["display_name","birth_year","city","bio"]) {
     profileForm.elements[name].value = data[name] ?? "";
@@ -145,6 +151,8 @@ async function showAccount(user) {
     profileForm.elements[name].value = (data[name] || []).join(", ");
   }
   renderProfileState();
+  await refreshUnreadCount();
+  subscribeUnread();
   if (ADMIN_EMAILS.includes((user.email || "").toLowerCase())) {
     $("#adminPanel").hidden = false;
     await loadAdminQueue();
@@ -197,6 +205,10 @@ $("#logoutButton").addEventListener("click", async () => {
   await db.auth.signOut();
   currentUser = null; currentProfile = null;
   $("#openMessages").hidden = true;
+  $("#unreadBadge").hidden = true;
+  $(".header-button").textContent = "Регистрация";
+  $(".header-login").hidden = false;
+  if (unreadChannel) { await db.removeChannel(unreadChannel); unreadChannel = null; }
   closeChatDrawer();
   profileView.hidden = true; authView.hidden = false;
   setAuthMode("signin");
@@ -227,6 +239,7 @@ async function loadProfiles(filters = {}) {
     $("#profileGrid").innerHTML = '<div class="profile-loading">Попробуйте обновить страницу чуть позже.</div>';
     return;
   }
+  loadedProfiles = new Map(data.map((profile) => [profile.id, profile]));
   $("#memberCount").textContent = data.length ? "Анкет: " + data.length : "Пока нет опубликованных анкет";
   $("#profileGrid").innerHTML = data.length
     ? data.map(profileCard).join("")
@@ -234,10 +247,50 @@ async function loadProfiles(filters = {}) {
 }
 $("#profileGrid").addEventListener("click", async (event) => {
   const button = event.target.closest(".start-chat");
-  if (!button) return;
-  const card = button.closest(".member-card");
-  await startConversation(card.dataset.profileId, card.dataset.profileName);
+  const card = event.target.closest(".member-card");
+  if (!card) return;
+  if (button) return startConversation(card.dataset.profileId, card.dataset.profileName);
+  openProfilePreview(card.dataset.profileId);
 });
+
+const profilePreview = $("#profilePreview");
+function closeProfilePreview() {
+  profilePreview.classList.remove("open");
+  profilePreview.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("preview-open");
+}
+function openProfilePreview(profileId) {
+  const profile = loadedProfiles.get(profileId);
+  if (!profile) return;
+  const image = photoUrl(profile.avatar_path);
+  const instruments = (profile.instruments || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("");
+  const genres = (profile.genres || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("");
+  $("#profilePreviewContent").innerHTML = `
+    <div class="preview-photo">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(profile.display_name)}">` : '<div class="avatar-placeholder">♪</div>'}</div>
+    <div class="preview-copy"><small>АНКЕТА МУЗЫКАНТА · ${escapeHtml(profile.city || "Хайфа")}</small><h2 id="previewName">${escapeHtml(profile.display_name)}</h2>
+    <div class="preview-tags">${instruments}${genres}</div><p>${escapeHtml(profile.bio || "Музыкант пока не добавил описание.")}</p>
+    ${(profile.looking_for || []).length ? `<h3>Ищет</h3><p>${escapeHtml(profile.looking_for.join(" · "))}</p>` : ""}
+    <div class="preview-actions"><button type="button" class="app-primary" data-preview-chat>Написать</button><button type="button" class="preview-report" data-preview-report>Пожаловаться</button></div></div>`;
+  $("[data-preview-chat]").addEventListener("click", () => { closeProfilePreview(); startConversation(profile.id, profile.display_name); });
+  $("[data-preview-report]").addEventListener("click", () => reportProfile(profile.id));
+  profilePreview.classList.add("open");
+  profilePreview.setAttribute("aria-hidden", "false");
+  document.body.classList.add("preview-open");
+}
+async function reportProfile(profileId) {
+  if (!currentUser) {
+    closeProfilePreview(); setAuthMode("signin"); openModal();
+    return showMessage($("#authStatus"), "Войдите, чтобы отправить жалобу.");
+  }
+  if (profileId === currentUser.id) return alert("Нельзя пожаловаться на свою анкету.");
+  const reason = prompt("Опишите причину жалобы (минимум 10 символов):");
+  if (!reason) return;
+  if (reason.trim().length < 10) return alert("Пожалуйста, опишите причину подробнее.");
+  const {error} = await db.from("reports").insert({reporter_id:currentUser.id,reported_profile_id:profileId,reason:reason.trim()});
+  alert(error ? "Не удалось отправить жалобу: " + error.message : "Жалоба отправлена модератору.");
+  if (!error) closeProfilePreview();
+}
+$$("[data-close-preview]").forEach((button) => button.addEventListener("click", closeProfilePreview));
 $$(".filter-button").forEach((button) => button.addEventListener("click", async () => {
   $$(".filter-button").forEach((item) => item.classList.remove("active"));
   button.classList.add("active");
@@ -337,6 +390,19 @@ async function loadConversations() {
   }));
 }
 
+async function refreshUnreadCount() {
+  if (!currentUser) return;
+  const {count, error} = await db.from("messages").select("id", {count:"exact",head:true}).neq("sender_id", currentUser.id).is("read_at", null);
+  if (error) return;
+  const badge = $("#unreadBadge");
+  badge.textContent = count > 99 ? "99+" : String(count || 0);
+  badge.hidden = !count;
+}
+function subscribeUnread() {
+  if (unreadChannel) return;
+  unreadChannel = db.channel(`unread:${currentUser.id}`).on("postgres_changes", {event:"*",schema:"public",table:"messages"}, refreshUnreadCount).subscribe();
+}
+
 async function selectConversation(conversationId, partner = {}) {
   activeConversation = conversationId;
   $("#chatWelcome").hidden = true;
@@ -349,6 +415,7 @@ async function selectConversation(conversationId, partner = {}) {
   if (error) return showMessage($("#chatStatus"), error.message, true);
   renderMessages(data || []);
   await db.rpc("mark_conversation_read", {target_conversation_id: conversationId});
+  await refreshUnreadCount();
   if (messageChannel) await db.removeChannel(messageChannel);
   messageChannel = db.channel(`messages:${conversationId}`)
     .on("postgres_changes", {event:"INSERT", schema:"public", table:"messages", filter:`conversation_id=eq.${conversationId}`}, (payload) => {
@@ -395,6 +462,7 @@ db.auth.onAuthStateChange((_event, session) => {
   if (session?.user) setTimeout(() => showAccount(session.user), 0);
 });
 (async () => {
+  profileForm.elements.birth_year.max = String(new Date().getFullYear() - 18);
   await loadProfiles();
   const {data} = await db.auth.getSession();
   if (data.session?.user) await showAccount(data.session.user);

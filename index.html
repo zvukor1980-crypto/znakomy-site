@@ -64,9 +64,10 @@
                 <button class="messages-button" id="openMessages" type="button" hidden>
                     Сообщения <span id="unreadBadge" hidden>0</span>
                 </button>
+                <a class="header-login" href="#auth" data-open-auth data-auth-open-mode="signin">Войти</a>
                 <a
                     class="header-button"
-                    href="#auth" data-open-auth
+                    href="#auth" data-open-auth data-auth-open-mode="signup"
                 >
                     Регистрация
                 </a>
@@ -94,7 +95,7 @@
                     <p>ZNAKOMY — площадка для музыкантов Хайфы. Находи участников в группу, людей для джемов и новых проектов.</p>
                     <div class="platform-hero-actions">
                         <a href="#search" class="platform-primary">⌕&nbsp; Найти музыкантов</a>
-                        <a href="#auth" data-open-auth class="platform-secondary">Создать анкету</a>
+                        <a href="#auth" data-open-auth data-auth-open-mode="signup" class="platform-secondary">Создать анкету</a>
                     </div>
                 </div>
             </section>
@@ -112,7 +113,7 @@
             </section>
 
             <section class="content-grid platform-people" id="people">
-                <div class="people-heading"><div><small>Сообщество</small><h2>Музыканты Хайфы</h2></div><a href="#auth" data-open-auth>Создать анкету →</a></div>
+                <div class="people-heading"><div><small>Сообщество</small><h2>Музыканты Хайфы</h2></div><a href="#auth" data-open-auth data-auth-open-mode="signup">Создать анкету →</a></div>
                 <div class="musician-gallery" id="profileGrid"><div class="profile-loading">Ищем музыкантов рядом…</div></div>
             </section>
 
@@ -123,7 +124,7 @@
                 <a href="#auth" data-open-auth><i>04</i><h3>Объявления</h3><p>Ищи музыкантов, проекты, оборудование и услуги.</p><span>Разместить →</span></a>
             </section>
 
-            <section class="platform-cta"><div><h2>Ты музыкант? Присоединяйся.</h2><p>Здесь тебя поймут.</p></div><button type="button" data-open-auth>Создать анкету бесплатно</button></section>
+            <section class="platform-cta"><div><h2>Ты музыкант? Присоединяйся.</h2><p>Здесь тебя поймут.</p></div><button type="button" data-open-auth data-auth-open-mode="signup">Создать анкету бесплатно</button></section>
         </main>
 
         <aside class="chat-drawer" id="chatDrawer" aria-hidden="true">
@@ -159,6 +160,14 @@
                 </div>
             </section>
         </aside>
+
+        <div class="profile-preview" id="profilePreview" aria-hidden="true">
+            <div class="profile-preview-backdrop" data-close-preview></div>
+            <section class="profile-preview-card" role="dialog" aria-modal="true" aria-labelledby="previewName">
+                <button class="modal-close" type="button" data-close-preview aria-label="Закрыть анкету">×</button>
+                <div id="profilePreviewContent"></div>
+            </section>
+        </div>
 
 
         <div class="modal" id="authModal" aria-hidden="true">
@@ -226,6 +235,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/app.js?v=9"></script>
+    <script src="assets/js/app.js?v=10"></script>
 </body>
 </html>
