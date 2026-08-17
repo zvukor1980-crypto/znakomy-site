@@ -1,30 +1,32 @@
 /* ZNAKOMY production Auth redirect guard.
-   Must be loaded after supabase.min.js and before app.js. */
+   Loaded after app.js; patches the already-created Supabase client. */
 (() => {
   const PRODUCTION_URL = "https://znakomy.online/";
-  if (!window.supabase?.createClient) return;
+  if (typeof db === "undefined" || !db?.auth) return;
 
-  const originalCreateClient = window.supabase.createClient.bind(window.supabase);
-  window.supabase.createClient = (...args) => {
-    const client = originalCreateClient(...args);
-    if (!client?.auth) return client;
+  const auth = db.auth;
+  if (auth.__znakomyProductionRedirectPatched) return;
 
-    const originalSignUp = client.auth.signUp.bind(client.auth);
-    client.auth.signUp = (credentials = {}) => {
-      const options = {...(credentials.options || {}), emailRedirectTo: PRODUCTION_URL};
-      return originalSignUp({...credentials, options});
-    };
-
-    const originalResend = client.auth.resend.bind(client.auth);
-    client.auth.resend = (credentials = {}) => {
-      const options = {...(credentials.options || {}), emailRedirectTo: PRODUCTION_URL};
-      return originalResend({...credentials, options});
-    };
-
-    const originalReset = client.auth.resetPasswordForEmail.bind(client.auth);
-    client.auth.resetPasswordForEmail = (email, options = {}) =>
-      originalReset(email, {...options, redirectTo: PRODUCTION_URL});
-
-    return client;
+  const originalSignUp = auth.signUp.bind(auth);
+  auth.signUp = (credentials = {}) => {
+    const options = {...(credentials.options || {}), emailRedirectTo: PRODUCTION_URL};
+    return originalSignUp({...credentials, options});
   };
+
+  const originalResend = auth.resend.bind(auth);
+  auth.resend = (credentials = {}) => {
+    const options = {...(credentials.options || {}), emailRedirectTo: PRODUCTION_URL};
+    return originalResend({...credentials, options});
+  };
+
+  const originalReset = auth.resetPasswordForEmail.bind(auth);
+  auth.resetPasswordForEmail = (email, options = {}) =>
+    originalReset(email, {...options, redirectTo: PRODUCTION_URL});
+
+  Object.defineProperty(auth, "__znakomyProductionRedirectPatched", {
+    value: true,
+    configurable: false,
+    enumerable: false,
+    writable: false
+  });
 })();
