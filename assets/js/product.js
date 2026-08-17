@@ -15,8 +15,8 @@
   document.head.appendChild(layoutFix);
   const loadScript=(src)=>{const s=document.createElement('script');s.src=src;s.defer=true;document.head.appendChild(s)};
   const loadCss=(href)=>{const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l)};
-  loadScript('assets/js/auth-redirect.js?v=20260817-2');
-  loadCss('assets/css/community.css?v=1'); loadScript('assets/js/community.js?v=1');
+  loadScript('assets/js/auth-redirect.js?build=20260817-1645');
+  loadCss('assets/css/community.css?build=20260817-1645'); loadScript('assets/js/community.js?build=20260817-1645');
 
   const recoveryView=document.querySelector('#recoveryView'), recoveryForm=document.querySelector('#recoveryForm'), mobileMessages=document.querySelector('#mobileMessages'), messageField=document.querySelector("#messageForm textarea[name='message']");
   function showRecoveryView(){if(!recoveryView||!recoveryForm)return;const a=document.querySelector('#authView'),p=document.querySelector('#profileView');if(a)a.hidden=true;if(p)p.hidden=true;recoveryView.hidden=false;if(typeof openModal==='function')openModal();setTimeout(()=>recoveryForm.elements.password?.focus(),60)}
@@ -26,8 +26,9 @@
   if(mobileMessages)mobileMessages.addEventListener('click',async()=>{if(typeof currentUser!=='undefined'&&currentUser){if(typeof openChatDrawer==='function')openChatDrawer();if(typeof loadConversations==='function')await loadConversations();return}if(typeof setAuthMode==='function')setAuthMode('signin');if(typeof openModal==='function')openModal()});
   if(messageField){messageField.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();e.currentTarget.form?.requestSubmit()}});messageField.addEventListener('input',e=>{const f=e.currentTarget;f.style.height='auto';f.style.height=`${Math.min(f.scrollHeight,140)}px`})}
   if(typeof profileCard==='function'){profileCard=function(profile){const tags=[...(profile.instruments||[]),...(profile.genres||[])].slice(0,3).map(escapeHtml).join(' · '),looking=(profile.looking_for||[]).slice(0,2).map(escapeHtml).join(' · '),image=photoUrl(profile.avatar_path);return `<article class="musician-card member-card" data-profile-id="${profile.id}" data-profile-name="${escapeHtml(profile.display_name)}" data-tags="${escapeHtml((profile.instruments||[]).join(' ').toLowerCase())}"><div class="card-media">${image?`<img src="${escapeHtml(image)}" alt="${escapeHtml(profile.display_name)}" loading="lazy">`:'<div class="avatar-placeholder">♪</div>'}<div class="card-overlay"></div></div><div class="card-caption"><small>${escapeHtml(profile.city||'Хайфа')}</small><strong>${escapeHtml(profile.display_name)}</strong><span>${tags||'Музыкант'}</span>${looking?`<em>Ищет: ${looking}</em>`:''}</div><button class="start-chat" type="button">Написать</button></article>`};setTimeout(()=>{if(typeof loadProfiles==='function')loadProfiles()},50)}
-  loadScript('assets/js/navigation.js?v=20260817-1');
-  loadCss('assets/css/profile-flow.css?v=20260817-1'); loadScript('assets/js/profile-flow.js?v=20260817-1');
-  loadCss('assets/css/admin-panel.css?v=20260817-1'); loadScript('assets/js/admin-panel.js?v=20260817-1');
-  loadScript('assets/js/account-flow.js?v=20260817-1');
+  loadScript('assets/js/navigation.js?build=20260817-1645');
+  loadCss('assets/css/profile-flow.css?build=20260817-1645'); loadScript('assets/js/profile-flow.js?build=20260817-1645');
+  loadCss('assets/css/admin-panel.css?build=20260817-1645'); loadScript('assets/js/admin-panel.js?build=20260817-1645');
+  loadScript('assets/js/account-flow.js?build=20260817-1645');
+  loadScript('assets/js/direct-fix.js?build=20260817-1645');
 })();
