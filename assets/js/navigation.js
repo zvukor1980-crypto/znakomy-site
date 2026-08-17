@@ -1,12 +1,41 @@
-/* ZNAKOMY browser-history layer.
-   Keeps Back/Forward inside the app for modal, profile preview and Direct. */
+/* ZNAKOMY browser-history + auth-redirect layer.
+   Keeps Back/Forward inside the app and forces production auth callbacks. */
 (() => {
   const stateKey = "znakomyView";
+  const AUTH_REDIRECT_URL = "https://znakomy.online/";
   const authModal = document.querySelector("#authModal");
   const profilePreview = document.querySelector("#profilePreview");
   const chatDrawer = document.querySelector("#chatDrawer");
 
   let applyingPopState = false;
+
+  // Supabase hosted Auth only honors redirect URLs that are allowed in Auth URL Configuration.
+  // The client must still explicitly request the production URL so it never derives localhost.
+  if (typeof db !== "undefined" && db?.auth) {
+    const originalSignUp = db.auth.signUp.bind(db.auth);
+    db.auth.signUp = (credentials = {}) => originalSignUp({
+      ...credentials,
+      options: {
+        ...(credentials.options || {}),
+        emailRedirectTo: AUTH_REDIRECT_URL
+      }
+    });
+
+    const originalResend = db.auth.resend.bind(db.auth);
+    db.auth.resend = (params = {}) => originalResend({
+      ...params,
+      options: {
+        ...(params.options || {}),
+        emailRedirectTo: AUTH_REDIRECT_URL
+      }
+    });
+
+    const originalReset = db.auth.resetPasswordForEmail.bind(db.auth);
+    db.auth.resetPasswordForEmail = (email, options = {}) => originalReset(email, {
+      ...options,
+      redirectTo: AUTH_REDIRECT_URL
+    });
+  }
 
   function currentView() {
     if (authModal?.classList.contains("open")) return "auth";
@@ -31,7 +60,6 @@
     history.pushState({ ...(history.state || {}), [stateKey]: view }, "", location.href);
   }
 
-  // Observe app classes instead of replacing existing application functions.
   const observer = new MutationObserver(() => {
     const view = currentView();
     if (view) pushView(view);
@@ -40,30 +68,21 @@
     observer.observe(node, { attributes: true, attributeFilter: ["class"] });
   });
 
-  // Closing an overlay with its UI should consume its history entry as well.
   document.addEventListener("click", (event) => {
     const close = event.target.closest("[data-close-modal],[data-close-preview],[data-close-chat]");
     if (!close || applyingPopState) return;
-    if (history.state?.[stateKey]) {
-      // Existing app handler closes the visual layer; this keeps browser history in sync.
-      setTimeout(() => history.back(), 0);
-    }
+    if (history.state?.[stateKey]) setTimeout(() => history.back(), 0);
   }, true);
 
   window.addEventListener("popstate", (event) => {
     applyingPopState = true;
     closeAllOverlays();
-
-    // A forward navigation can restore the requested app layer by reusing its normal trigger.
     const view = event.state?.[stateKey];
     if (view === "auth") {
       document.querySelector("[data-open-auth]")?.click();
     } else if (view === "direct") {
       document.querySelector("#openMessages")?.click();
     }
-    // Profile previews are intentionally closed when navigating Back/Forward because
-    // their concrete profile id is not stored in the legacy UI state.
-
     setTimeout(() => { applyingPopState = false; }, 0);
   });
 })();
