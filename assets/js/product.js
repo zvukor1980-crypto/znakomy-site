@@ -30,5 +30,5 @@
   loadCss('assets/css/profile-flow.css?build=20260817-1645'); loadScript('assets/js/profile-flow.js?build=20260817-1645');
   loadCss('assets/css/admin-panel.css?build=20260817-1645'); loadScript('assets/js/admin-panel.js?build=20260817-1645');
   loadScript('assets/js/account-flow.js?build=20260817-1645');
-  loadScript('assets/js/direct-fix.js?build=20260817-1715');
+  loadScript('assets/js/direct-fix.js?build=20260817-1732');
 })();
