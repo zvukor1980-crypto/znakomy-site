@@ -17,6 +17,11 @@
   `;
   document.head.appendChild(layoutFix);
 
+  const authRedirectScript = document.createElement("script");
+  authRedirectScript.src = "assets/js/auth-redirect.js?v=20260817-2";
+  authRedirectScript.defer = true;
+  document.head.appendChild(authRedirectScript);
+
   const communityCss = document.createElement("link");
   communityCss.rel = "stylesheet";
   communityCss.href = "assets/css/community.css?v=1";
