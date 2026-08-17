@@ -129,4 +129,13 @@
   navigationScript.src = "assets/js/navigation.js?v=20260817-1";
   navigationScript.defer = true;
   document.head.appendChild(navigationScript);
+
+  const profileFlowCss = document.createElement("link");
+  profileFlowCss.rel = "stylesheet";
+  profileFlowCss.href = "assets/css/profile-flow.css?v=20260817-1";
+  document.head.appendChild(profileFlowCss);
+  const profileFlowScript = document.createElement("script");
+  profileFlowScript.src = "assets/js/profile-flow.js?v=20260817-1";
+  profileFlowScript.defer = true;
+  document.head.appendChild(profileFlowScript);
 })();
