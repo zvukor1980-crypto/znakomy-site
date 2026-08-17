@@ -1,4 +1,4 @@
-/* ZNAKOMY stable runtime + persistent login */
+/* ZNAKOMY stable runtime loader — same-origin only */
 (() => {
   const originalCreateClient=window.supabase?.createClient;
   if(originalCreateClient){
@@ -9,6 +9,10 @@
       });
     };
   }
-  const stable='https://raw.githubusercontent.com/zvukor1980-crypto/znakomy-site/fc124a066742f93b5acbcfd7013650334d84b0c8/assets/js/app.js';
-  fetch(stable,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('runtime '+r.status);return r.text()}).then(code=>(0,eval)(code)).catch(err=>{console.error('ZNAKOMY runtime load failed',err);document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;z-index:99999;inset:0 auto auto 0;width:100%;padding:12px;background:#7f1d1d;color:white;text-align:center">Не удалось загрузить приложение. Обновите страницу.</div>')});
+  const stable='assets/js/app-stable.js?build=20260817-1948';
+  const s=document.createElement('script');
+  s.src=stable;
+  s.async=false;
+  s.onerror=()=>{console.error('ZNAKOMY local runtime load failed');document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;z-index:99999;inset:0 auto auto 0;width:100%;padding:12px;background:#7f1d1d;color:white;text-align:center">Не удалось загрузить приложение. Обновите страницу.</div>')};
+  document.head.appendChild(s);
 })();
