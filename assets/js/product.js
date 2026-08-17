@@ -15,5 +15,6 @@
   js('assets/js/profile-flow.js?build=20260817-2010');
   js('assets/js/admin-panel.js?build=20260817-2010');
   js('assets/js/direct-fix.js?build=20260817-2010');
+  js('assets/js/notifications.js?build=20260817-2002');
   js('assets/js/public-chat.js?build=20260817-2004');
 })();
