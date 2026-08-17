@@ -138,4 +138,13 @@
   profileFlowScript.src = "assets/js/profile-flow.js?v=20260817-1";
   profileFlowScript.defer = true;
   document.head.appendChild(profileFlowScript);
+
+  const adminCss = document.createElement("link");
+  adminCss.rel = "stylesheet";
+  adminCss.href = "assets/css/admin-panel.css?v=20260817-1";
+  document.head.appendChild(adminCss);
+  const adminScript = document.createElement("script");
+  adminScript.src = "assets/js/admin-panel.js?v=20260817-1";
+  adminScript.defer = true;
+  document.head.appendChild(adminScript);
 })();
