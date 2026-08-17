@@ -89,6 +89,7 @@ authForm.addEventListener("submit", async (event) => {
   const email = authForm.email.value.trim().toLowerCase();
   const password = authForm.password.value;
   showMessage($("#authStatus"), "Подождите…");
+  $("#authSubmit").disabled = true;
   const response = authMode === "signup"
     ? await db.auth.signUp({
         email, password,
@@ -99,6 +100,7 @@ authForm.addEventListener("submit", async (event) => {
       })
     : await db.auth.signInWithPassword({email, password});
   if (response.error) {
+    $("#authSubmit").disabled = false;
     console.error("Auth error", response.error);
     const messages = {
       invalid_credentials: "Неверный email или пароль. Если пароль не помните — нажмите «Забыли пароль?»",
@@ -113,18 +115,26 @@ authForm.addEventListener("submit", async (event) => {
     showMessage($("#authStatus"), "Вход выполнен. Открываю личный кабинет…");
     await showAccount(response.data.user);
   }
+  $("#authSubmit").disabled = false;
 });
 
 $("#resendConfirmation").addEventListener("click", async () => {
   const email = authForm.email.value.trim().toLowerCase();
   if (!email) return showMessage($("#authStatus"), "Сначала укажите email.", true);
   showMessage($("#authStatus"), "Отправляю новое письмо…");
+  const resendButton = $("#resendConfirmation");
+  resendButton.disabled = true;
   const {error} = await db.auth.resend({
     type: "signup",
     email,
     options: {emailRedirectTo: location.origin + location.pathname}
   });
   showMessage($("#authStatus"), error ? error.message : "Новое письмо отправлено. Используйте самую свежую ссылку.", Boolean(error));
+  let seconds = 60;
+  const cooldown = setInterval(() => {
+    resendButton.textContent = `Повторно через ${seconds--} сек.`;
+    if (seconds < 0) { clearInterval(cooldown); resendButton.textContent = "Отправить подтверждение ещё раз"; resendButton.disabled = false; }
+  }, 1000);
 });
 
 $("#resetPassword").addEventListener("click", async () => {
@@ -236,14 +246,15 @@ async function loadProfiles(filters = {}) {
   const {data, error} = await query.order("created_at",{ascending:false});
   if (error) {
     $("#memberCount").textContent = "Не удалось загрузить анкеты";
-    $("#profileGrid").innerHTML = '<div class="profile-loading">Попробуйте обновить страницу чуть позже.</div>';
+    $("#profileGrid").innerHTML = '<div class="profile-loading">Нет соединения или сервер временно недоступен.<br><button type="button" id="retryProfiles">Повторить</button></div>';
+    $("#retryProfiles").addEventListener("click", () => loadProfiles(filters));
     return;
   }
   loadedProfiles = new Map(data.map((profile) => [profile.id, profile]));
   $("#memberCount").textContent = data.length ? "Анкет: " + data.length : "Пока нет опубликованных анкет";
   $("#profileGrid").innerHTML = data.length
     ? data.map(profileCard).join("")
-    : '<div class="profile-loading">Станьте первым музыкантом в сообществе.</div>';
+    : '<div class="profile-loading">По этим параметрам музыкантов пока нет.<br>Попробуйте изменить фильтры.</div>';
 }
 $("#profileGrid").addEventListener("click", async (event) => {
   const button = event.target.closest(".start-chat");
