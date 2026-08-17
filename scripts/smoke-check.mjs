@@ -14,14 +14,15 @@ for(const file of files){
   try{execFileSync(process.execPath,['--check',`assets/js/${file}`],{stdio:'pipe'});ok(`syntax ${file}`)}
   catch(e){fail(`syntax ${file}: ${e.stderr?.toString()||e.message}`)}
 }
-const runtimeFiles=['assets/js/core.js','assets/js/product.js','assets/js/direct-fix.js','assets/js/community.js','assets/js/profile-flow.js','assets/js/admin-panel.js','assets/js/navigation.js'];
+const runtimeFiles=['assets/js/core.js','assets/js/product.js','assets/js/direct-fix.js','assets/js/community.js','assets/js/profile-flow.js','assets/js/admin-panel.js','assets/js/navigation.js','assets/js/app.js','assets/js/app-stable.js','assets/js/auth-redirect.js','assets/js/account-flow.js'];
 for(const path of runtimeFiles){
+  if(!fs.existsSync(path))continue;
   const src=fs.readFileSync(path,'utf8');
   if(/raw\.githubusercontent\.com|cdn\.jsdelivr\.net|unpkg\.com/.test(src)) fail(`${path} contains external JS runtime dependency`); else ok(`${path} local-runtime only`);
 }
 const direct=fs.readFileSync('assets/js/direct-fix.js','utf8');
 for(const needle of ['start_conversation','conversation-item','messageForm','messages','mark_conversation_read']) direct.includes(needle)?ok(`Direct ${needle}`):fail(`Direct missing ${needle}`);
 const core=fs.readFileSync('assets/js/core.js','utf8');
-for(const needle of ['persistSession:true','autoRefreshToken:true','https://znakomy.online/','loadProfiles','showAccount']) core.includes(needle)?ok(`Core ${needle}`):fail(`Core missing ${needle}`);
+for(const needle of ['persistSession:true','autoRefreshToken:true','https://znakomy.online/','loadProfiles','showAccount','logoutButton']) core.includes(needle)?ok(`Core ${needle}`):fail(`Core missing ${needle}`);
 if(process.exitCode) process.exit(1);
 console.log('\nProduction smoke audit passed.');
