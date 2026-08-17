@@ -1,5 +1,22 @@
 /* ZNAKOMY product enhancements — 2026-08 */
 (() => {
+  const layoutFix = document.createElement("style");
+  layoutFix.id = "znakomy-fluid-layout-fix";
+  layoutFix.textContent = `
+    .site-header{width:100%!important;max-width:none!important;margin:0!important;box-sizing:border-box!important}
+    .platform-main{width:100%!important;max-width:none!important;margin:0!important}
+    .platform-hero{width:100%!important;max-width:none!important;margin:0!important}
+    .platform-hero-copy{width:100%!important;max-width:none!important;margin:0!important;box-sizing:border-box!important;text-align:left!important;padding-left:clamp(22px,5vw,86px)!important;padding-right:clamp(22px,5vw,86px)!important}
+    .platform-hero-copy h1{max-width:900px!important;margin-left:0!important;margin-right:0!important}
+    .platform-hero-copy p{max-width:650px!important;margin-left:0!important;margin-right:0!important}
+    .platform-search,.platform-people,.platform-directions,.platform-cta{width:auto!important;max-width:none!important;margin-left:clamp(14px,4vw,64px)!important;margin-right:clamp(14px,4vw,64px)!important}
+    @media(max-width:780px){
+      .platform-hero-copy{padding-left:20px!important;padding-right:20px!important}
+      .platform-search,.platform-people,.platform-directions,.platform-cta{margin-left:12px!important;margin-right:12px!important}
+    }
+  `;
+  document.head.appendChild(layoutFix);
+
   const recoveryView = document.querySelector("#recoveryView");
   const recoveryForm = document.querySelector("#recoveryForm");
   const mobileMessages = document.querySelector("#mobileMessages");
