@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="assets/css/luxury-fix.css?v=2">
     <link rel="stylesheet" href="assets/css/editorial.css?v=1">
     <link rel="stylesheet" href="assets/css/club.css?v=1">
-    <link rel="stylesheet" href="assets/css/platform.css?v=4">
+    <link rel="stylesheet" href="assets/css/platform.css?v=5">
 </head>
 
 <body>
@@ -126,6 +126,7 @@
                 <a href="#auth" data-open-auth><i>04</i><h3>Объявления</h3><p>Ищи музыкантов, проекты, оборудование и услуги.</p><span>Разместить →</span></a>
                 <a class="market-card" id="market" href="#auth" data-open-auth data-auth-open-mode="signin"><i>05 · MARKET</i><h3>Продажа инструментов</h3><p>Гитары, клавиши, барабаны, студийная и концертная аппаратура — размещай объявление после входа.</p><span>Продать или купить →</span></a>
                 <a class="repair-card" href="mailto:digitalaleksei@gmail.com?subject=%D0%A0%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%20%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9%20%D0%B0%D0%BF%D0%BF%D0%B0%D1%80%D0%B0%D1%82%D1%83%D1%80%D1%8B%20ZNAKOMY&body=%D0%A7%D1%82%D0%BE%20%D0%BD%D1%83%D0%B6%D0%BD%D0%BE%20%D0%BE%D1%82%D1%80%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%3A%20%0A%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%3A%20%0A%D0%93%D0%BE%D1%80%D0%BE%D0%B4%3A%20%D0%A5%D0%B0%D0%B9%D1%84%D0%B0%0A%D0%A2%D0%B5%D0%BB%D0%B5%D1%84%D0%BE%D0%BD%3A%20"><i>06 · SERVICE</i><h3>Ремонт аппаратуры</h3><p>Инструменты, усилители, микрофоны, пульты и студийная техника. Опиши неисправность мастеру.</p><span>Оставить заявку →</span></a>
+                <a class="lessons-card" href="mailto:digitalaleksei@gmail.com?subject=%D0%9E%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D0%B5%20ZNAKOMY&body=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%D1%83%D1%87%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%B8%D0%B3%D1%80%D0%B0%D1%82%D1%8C%20%D0%BD%D0%B0%3A%20%0A%D0%9C%D0%BE%D0%B9%20%D1%83%D1%80%D0%BE%D0%B2%D0%B5%D0%BD%D1%8C%3A%20%0A%D0%92%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%3A%20%0A%D0%93%D0%BE%D1%80%D0%BE%D0%B4%3A%20%D0%A5%D0%B0%D0%B9%D1%84%D0%B0"><i>07 · ACADEMY</i><h3>Обучение музыке</h3><p>Найди преподавателя по вокалу, гитаре, клавишам или барабанам в Хайфе.</p><span>Подобрать преподавателя →</span></a>
             </section>
 
             <section class="platform-cta"><div><h2>Ты музыкант? Присоединяйся.</h2><p>Здесь тебя поймут.</p></div><button type="button" data-open-auth data-auth-open-mode="signup">Создать анкету бесплатно</button></section>
@@ -208,6 +209,7 @@
                         <label>Инструменты / роль<input name="instruments" placeholder="Гитара, вокал, барабаны"></label>
                         <label>Жанры<input name="genres" placeholder="Rock, Jazz, Indie"></label>
                         <label>Кого или что ищете<input name="looking_for" placeholder="Группу, вокалиста, друзей"></label>
+                        <label>Ссылка на вашу песню<input name="song_url" type="url" maxlength="500" placeholder="https://youtube.com/…"></label>
                         <label>О себе<textarea name="bio" rows="5" minlength="20" maxlength="1500" required></textarea></label>
                         <label>Фотография<input name="avatar" type="file" accept="image/jpeg,image/png,image/webp"></label>
                         <div class="profile-actions">
@@ -239,6 +241,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/app.js?v=11"></script>
+    <script src="assets/js/app.js?v=12"></script>
 </body>
 </html>

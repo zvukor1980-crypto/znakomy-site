@@ -148,13 +148,13 @@ async function showAccount(user) {
   currentUser = user;
   authView.hidden = true;
   profileView.hidden = false;
-  const {data, error} = await db.from("profiles").select("id,display_name,birth_year,city,instruments,genres,looking_for,bio,avatar_path,status,moderation_note,created_at,updated_at,approved_at").eq("id", user.id).single();
+  const {data, error} = await db.from("profiles").select("id,display_name,birth_year,city,instruments,genres,looking_for,bio,avatar_path,song_url,status,moderation_note,created_at,updated_at,approved_at").eq("id", user.id).single();
   if (error) return showMessage($("#profileStatus"), error.message, true);
   currentProfile = data;
   $(".header-button").textContent = "Моя анкета";
   $(".header-login").hidden = true;
   $("#openMessages").hidden = false;
-  for (const name of ["display_name","birth_year","city","bio"]) {
+  for (const name of ["display_name","birth_year","city","bio","song_url"]) {
     profileForm.elements[name].value = data[name] ?? "";
   }
   for (const name of ["instruments","genres","looking_for"]) {
@@ -193,6 +193,7 @@ profileForm.addEventListener("submit", async (event) => {
     genres: splitList(profileForm.genres.value),
     looking_for: splitList(profileForm.looking_for.value),
     bio: profileForm.bio.value.trim(),
+    song_url: profileForm.song_url.value.trim() || null,
     avatar_path: avatarPath
   };
   const {data, error} = await db.from("profiles").update(values).eq("id", currentUser.id).select().single();
@@ -240,7 +241,7 @@ function profileCard(profile) {
 }
 async function loadProfiles(filters = {}) {
   const instrumentMap = {"Гитара":["Гитара","Guitar"],"Бас":["Бас","Bass"],"Барабаны":["Барабаны","Drums"],"Вокал":["Вокал","Vocal","Vocals"],"Клавиши":["Клавиши","Keys","Keyboard"]};
-  let query = db.from("profiles").select("id,display_name,city,instruments,genres,looking_for,bio,avatar_path,created_at").eq("status","approved");
+  let query = db.from("profiles").select("id,display_name,city,instruments,genres,looking_for,bio,avatar_path,song_url,created_at").eq("status","approved");
   if (filters.instrument) query = query.overlaps("instruments", instrumentMap[filters.instrument] || [filters.instrument]);
   if (filters.genre) query = query.contains("genres", [filters.genre]);
   const {data, error} = await query.order("created_at",{ascending:false});
@@ -280,6 +281,7 @@ function openProfilePreview(profileId) {
     <div class="preview-photo">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(profile.display_name)}">` : '<div class="avatar-placeholder">♪</div>'}</div>
     <div class="preview-copy"><small>АНКЕТА МУЗЫКАНТА · ${escapeHtml(profile.city || "Хайфа")}</small><h2 id="previewName">${escapeHtml(profile.display_name)}</h2>
     <div class="preview-tags">${instruments}${genres}</div><p>${escapeHtml(profile.bio || "Музыкант пока не добавил описание.")}</p>
+    ${profile.song_url ? `<a class="song-link" href="${escapeHtml(profile.song_url)}" target="_blank" rel="noopener noreferrer">▶ Послушать песню</a>` : ""}
     ${(profile.looking_for || []).length ? `<h3>Ищет</h3><p>${escapeHtml(profile.looking_for.join(" · "))}</p>` : ""}
     <div class="preview-actions"><button type="button" class="app-primary" data-preview-chat>Написать</button><button type="button" class="preview-report" data-preview-report>Пожаловаться</button></div></div>`;
   $("[data-preview-chat]").addEventListener("click", () => { closeProfilePreview(); startConversation(profile.id, profile.display_name); });
