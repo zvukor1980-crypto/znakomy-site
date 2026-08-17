@@ -119,4 +119,9 @@
       if (typeof loadProfiles === "function") loadProfiles();
     }, 50);
   }
+
+  const navigationScript = document.createElement("script");
+  navigationScript.src = "assets/js/navigation.js?v=20260817-1";
+  navigationScript.defer = true;
+  document.head.appendChild(navigationScript);
 })();
