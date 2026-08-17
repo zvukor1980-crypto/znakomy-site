@@ -17,6 +17,15 @@
   `;
   document.head.appendChild(layoutFix);
 
+  const communityCss = document.createElement("link");
+  communityCss.rel = "stylesheet";
+  communityCss.href = "assets/css/community.css?v=1";
+  document.head.appendChild(communityCss);
+  const communityScript = document.createElement("script");
+  communityScript.src = "assets/js/community.js?v=1";
+  communityScript.defer = true;
+  document.head.appendChild(communityScript);
+
   const recoveryView = document.querySelector("#recoveryView");
   const recoveryForm = document.querySelector("#recoveryForm");
   const mobileMessages = document.querySelector("#mobileMessages");
