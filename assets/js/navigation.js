@@ -37,10 +37,15 @@
     });
   }
 
+  const publicChat = () => document.querySelector(".public-chat-shell");
+  const repairModal = () => document.querySelector("#repairModal");
+
   function currentView() {
     if (authModal?.classList.contains("open")) return "auth";
     if (profilePreview?.classList.contains("open")) return "profile";
     if (chatDrawer?.classList.contains("open")) return "direct";
+    if (publicChat()?.classList.contains("open")) return "community";
+    if (repairModal()?.classList.contains("open")) return "repair";
     return null;
   }
 
@@ -51,7 +56,13 @@
     profilePreview?.setAttribute("aria-hidden", "true");
     chatDrawer?.classList.remove("open");
     chatDrawer?.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open", "preview-open", "chat-open");
+    const pc = publicChat();
+    pc?.classList.remove("open");
+    pc?.setAttribute("aria-hidden", "true");
+    const rm = repairModal();
+    rm?.classList.remove("open");
+    rm?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open", "preview-open", "chat-open", "public-chat-open");
   }
 
   function pushView(view) {
@@ -60,6 +71,7 @@
     history.pushState({ ...(history.state || {}), [stateKey]: view }, "", location.href);
   }
 
+  // Static overlays can be observed safely: only their class attribute is watched.
   const observer = new MutationObserver(() => {
     const view = currentView();
     if (view) pushView(view);
@@ -68,8 +80,15 @@
     observer.observe(node, { attributes: true, attributeFilter: ["class"] });
   });
 
+  // Public chat and repair are mounted later by their modules, so record their view from entry-point clicks.
   document.addEventListener("click", (event) => {
-    const close = event.target.closest("[data-close-modal],[data-close-preview],[data-close-chat]");
+    const communityOpen = event.target.closest("#publicChatButton,#publicChatNav,#floatingPublicChat,#mobilePublicChat,#publicChatEmergency");
+    if (communityOpen && !applyingPopState) setTimeout(() => pushView("community"), 0);
+
+    const repairOpen = event.target.closest(".repair-card,[data-open-repair]");
+    if (repairOpen && !applyingPopState) setTimeout(() => pushView("repair"), 0);
+
+    const close = event.target.closest("[data-close-modal],[data-close-preview],[data-close-chat],[data-public-chat-close],[data-repair-close]");
     if (!close || applyingPopState) return;
     if (history.state?.[stateKey]) setTimeout(() => history.back(), 0);
   }, true);
@@ -82,6 +101,10 @@
       document.querySelector("[data-open-auth]")?.click();
     } else if (view === "direct") {
       document.querySelector("#openMessages")?.click();
+    } else if (view === "community") {
+      window.ZnakomyPublicChat?.open?.();
+    } else if (view === "repair") {
+      window.ZnakomyRepair?.open?.();
     }
     setTimeout(() => { applyingPopState = false; }, 0);
   });
