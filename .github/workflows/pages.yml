@@ -23,6 +23,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Inject brand and SEO
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          h=p.read_text()
+          seo=Path('seo-fragment.html').read_text()
+          if 'znakomy-mark.svg' not in h:
+              h=h.replace('</head>', seo+'\n</head>')
+          h=h.replace('<a class="logo" href="#top"><span>ZNAKOMY</span><i></i></a>', '<a class="logo brand-logo" href="#top" aria-label="ZNAKOMY"><img src="/assets/brand/znakomy-mark.svg" alt="" width="42" height="42"><span>ZNAKOMY</span></a>')
+          p.write_text(h)
+          PY
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
