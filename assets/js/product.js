@@ -1,4 +1,4 @@
-/* ZNAKOMY production module loader — Core 3.2 */
+/* ZNAKOMY production module loader — Core 3.3 */
 (() => {
   const style=document.createElement('style');
   style.id='znakomy-fluid-layout-fix';
@@ -21,4 +21,5 @@
   js('assets/js/public-chat.js?build=20260817-2038');
   js('assets/js/notifications.js?build=20260817-2015');
   css('assets/css/final-power.css?build=20260817-2113');
+  css('assets/css/mobile-rescue.css?build=20260818-0635');
 })();
