@@ -32,4 +32,10 @@ for(const file of htmlFiles){const src=fs.readFileSync(file,'utf8');const re=/(?
 ok(`local href/src targets checked: ${checked}`);
 
 for(const p of ['ads-haifa.html','en/ads-haifa.html','he/ads-haifa.html'])fs.existsSync(p)?ok(`ads page ${p}`):fail(`missing ${p}`);
-if(process.exitCode)process.exit(1);console.log('\nProduction smoke audit passed: assets + all local links + core + Direct + chat + repair + RU/HE/EN + mobile.');
+
+// Every real SEO HTML page must be discoverable from sitemap.xml.
+const sitemap=fs.readFileSync('sitemap.xml','utf8');
+const seoPages=htmlFiles.filter(p=>p!=='index.html'&&!p.startsWith('.github/')&&!p.includes('seo-fragment'));
+for(const p of seoPages){const url='https://znakomy.online/'+p.replaceAll('\\','/');sitemap.includes(`<loc>${url}</loc>`)?ok(`sitemap ${p}`):fail(`sitemap missing ${p}`)}
+
+if(process.exitCode)process.exit(1);console.log('\nProduction smoke audit passed: assets + all local links + sitemap coverage + core + Direct + chat + repair + RU/HE/EN + mobile.');
