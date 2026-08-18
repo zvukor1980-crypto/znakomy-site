@@ -16,10 +16,10 @@ for(const p of ['assets/js/core.js','assets/js/product.js','assets/js/direct-fix
 const product=fs.readFileSync('assets/js/product.js','utf8');
 for(const n of ['community.js','direct-fix.js','public-chat.js','notifications.js','mobile-rescue.css','i18n.js','i18n.css','repair.js','repair.css','link-audit.js']) product.includes(n)?ok(`loader ${n}`):fail(`loader missing ${n}`);
 const i18n=fs.readFileSync('assets/js/i18n.js','utf8');
-for(const n of ['ru:{','en:{','he:{','znakomy-lang','document.documentElement.dir'])i18n.includes(n)?ok(`i18n ${n}`):fail(`i18n missing ${n}`);
+for(const n of ['ru:{','en:{','he:{','znakomy-lang','document.documentElement.dir','znakomy:language','myProfile','profilePending'])i18n.includes(n)?ok(`i18n ${n}`):fail(`i18n missing ${n}`);
 if(i18n.includes('MutationObserver'))fail('i18n must not use MutationObserver');else ok('i18n non-destructive: no MutationObserver');
 const direct=fs.readFileSync('assets/js/direct-fix.js','utf8');for(const n of ['start_conversation','messageForm','mark_conversation_read'])direct.includes(n)?ok(`Direct ${n}`):fail(`Direct missing ${n}`);
-const repair=fs.readFileSync('assets/js/repair.js','utf8');for(const n of ['repair_requests','db.from','ZnakomyRepair','ru:','en:','he:'])repair.includes(n)?ok(`Repair ${n}`):fail(`Repair missing ${n}`);
+const repair=fs.readFileSync('assets/js/repair.js','utf8');for(const n of ['repair_requests','db.from','ZnakomyRepair','ru:','en:','he:','znakomy:language'])repair.includes(n)?ok(`Repair ${n}`):fail(`Repair missing ${n}`);
 const linkAudit=fs.readFileSync('assets/js/link-audit.js','utf8');for(const n of ['bands-haifa.html','jams-haifa.html','ads-haifa.html','music-market-haifa.html'])linkAudit.includes(n)?ok(`Feature link ${n}`):fail(`Feature link missing ${n}`);
 const mobile=fs.readFileSync('assets/css/mobile-rescue.css','utf8');if(!mobile.includes('@media (max-width:820px)'))fail('mobile breakpoint missing');else ok('mobile breakpoint');
 
