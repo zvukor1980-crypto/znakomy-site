@@ -1,4 +1,4 @@
-/* ZNAKOMY production module loader — Core 4.0 audited */
+/* ZNAKOMY production module loader — Core 4.1 audited */
 (()=>{
   const style=document.createElement('style');
   style.id='znakomy-fluid-layout-fix';
@@ -9,7 +9,7 @@
   emergency.addEventListener('click',()=>{if(window.ZnakomyPublicChat?.open)return window.ZnakomyPublicChat.open();const wait=setInterval(()=>{if(window.ZnakomyPublicChat?.open){clearInterval(wait);window.ZnakomyPublicChat.open()}},100);setTimeout(()=>clearInterval(wait),5000)});
   const js=src=>{const s=document.createElement('script');s.src=src;s.async=false;s.onerror=()=>console.error('Module failed:',src);document.head.appendChild(s)};
   const css=href=>{const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l)};
-  const b='20260818-1900-i18n-safe';
+  const b='20260818-1935-history-safe';
   css(`assets/css/community.css?build=${b}`);css(`assets/css/profile-flow.css?build=${b}`);css(`assets/css/admin-panel.css?build=${b}`);css(`assets/css/public-chat.css?build=${b}`);css(`assets/css/repair.css?build=${b}`);
   js(`assets/js/community.js?build=${b}`);js(`assets/js/navigation.js?build=${b}`);js(`assets/js/profile-flow.js?build=${b}`);js(`assets/js/admin-panel.js?build=${b}`);js(`assets/js/direct-fix.js?build=${b}`);js(`assets/js/public-chat.js?build=${b}`);js(`assets/js/notifications.js?build=${b}`);js(`assets/js/repair.js?build=${b}`);js(`assets/js/repair-admin.js?build=${b}`);js(`assets/js/link-audit.js?build=${b}`);
   css(`assets/css/final-power.css?build=${b}`);css(`assets/css/mobile-rescue.css?build=${b}`);
