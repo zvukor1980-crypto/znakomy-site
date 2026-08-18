@@ -1,4 +1,4 @@
-/* ZNAKOMY production module loader — Core 3.3 */
+/* ZNAKOMY production module loader — Core 3.4 */
 (() => {
   const style=document.createElement('style');
   style.id='znakomy-fluid-layout-fix';
@@ -9,17 +9,8 @@
   emergency.addEventListener('click',()=>{if(window.ZnakomyPublicChat?.open)window.ZnakomyPublicChat.open();else{const wait=setInterval(()=>{if(window.ZnakomyPublicChat?.open){clearInterval(wait);window.ZnakomyPublicChat.open()}},100);setTimeout(()=>clearInterval(wait),5000)}});
   const js=src=>{const s=document.createElement('script');s.src=src;s.async=false;s.onerror=()=>console.error('Module failed:',src);document.head.appendChild(s)};
   const css=href=>{const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l)};
-  css('assets/css/community.css?build=20260817-2010');
-  css('assets/css/profile-flow.css?build=20260817-2010');
-  css('assets/css/admin-panel.css?build=20260817-2010');
-  css('assets/css/public-chat.css?build=20260817-2038');
-  js('assets/js/community.js?build=20260817-2010');
-  js('assets/js/navigation.js?build=20260817-2010');
-  js('assets/js/profile-flow.js?build=20260817-2010');
-  js('assets/js/admin-panel.js?build=20260817-2010');
-  js('assets/js/direct-fix.js?build=20260817-2010');
-  js('assets/js/public-chat.js?build=20260817-2038');
-  js('assets/js/notifications.js?build=20260817-2015');
-  css('assets/css/final-power.css?build=20260817-2113');
-  css('assets/css/mobile-rescue.css?build=20260818-0635');
+  css('assets/css/community.css?build=20260817-2010');css('assets/css/profile-flow.css?build=20260817-2010');css('assets/css/admin-panel.css?build=20260817-2010');css('assets/css/public-chat.css?build=20260817-2038');
+  js('assets/js/community.js?build=20260817-2010');js('assets/js/navigation.js?build=20260817-2010');js('assets/js/profile-flow.js?build=20260817-2010');js('assets/js/admin-panel.js?build=20260817-2010');js('assets/js/direct-fix.js?build=20260817-2010');js('assets/js/public-chat.js?build=20260817-2038');js('assets/js/notifications.js?build=20260817-2015');
+  css('assets/css/final-power.css?build=20260817-2113');css('assets/css/mobile-rescue.css?build=20260818-0635');
+  css('assets/css/i18n.css?build=20260818-0745');js('assets/js/i18n.js?build=20260818-0745');
 })();
