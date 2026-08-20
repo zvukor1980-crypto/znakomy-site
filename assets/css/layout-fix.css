@@ -1,5 +1,5 @@
-@import url("./premium-safe.css?v=20260820-0940");
-@import url("./beauty-2.css?v=20260820-0940");
+@import url("./premium-safe.css?v=20260820-1044");
+@import url("./beauty-2.css?v=20260820-1044");
 /* ZNAKOMY fluid layout hotfix — 2026-08-20 */
 html,body{width:100%;max-width:none;overflow-x:hidden}
 .site-shell{width:100%!important;max-width:none!important;margin:0!important;border-left:0!important;border-right:0!important;border-radius:0!important}
@@ -7,11 +7,13 @@ html,body{width:100%;max-width:none;overflow-x:hidden}
 .platform-main,.platform-hero{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important}
 .platform-hero-copy{width:100%!important;max-width:none!important;margin:0!important;padding-left:clamp(28px,5vw,96px)!important;padding-right:clamp(28px,5vw,96px)!important;box-sizing:border-box!important;text-align:left!important}
 .platform-hero-copy h1,.platform-hero-copy p,.platform-hero-actions,.hero-pills{margin-left:0!important;margin-right:0!important}
-/* FINAL HERO TYPOGRAPHY OVERRIDE — this file loads last on the homepage. */
-.platform-hero-copy h1{font-size:clamp(28px,2.75vw,46px)!important;line-height:1.08!important;letter-spacing:-.035em!important;max-width:15ch!important;margin-top:14px!important}
-.platform-hero-copy p{font-size:clamp(14px,.95vw,17px)!important;line-height:1.45!important;max-width:560px!important}
+/* HERO TYPOGRAPHY */
+.platform-hero-copy h1{font-size:clamp(14px,1.5vw,23px)!important;line-height:1.15!important;letter-spacing:-.02em!important;max-width:420px!important;margin-top:12px!important;text-transform:none!important}
+.platform-hero-copy p{font-size:clamp(13px,.9vw,15px)!important;line-height:1.45!important;max-width:520px!important}
+/* Higher specificity intentionally beats the inline legacy hero rule in index.html. */
+html body .platform-hero .platform-hero-copy h1{font-size:15px!important;line-height:1.15!important;max-width:420px!important}
 .platform-search,.platform-people,.platform-directions,.platform-cta{width:auto!important;max-width:none!important;margin-left:clamp(20px,4vw,72px)!important;margin-right:clamp(20px,4vw,72px)!important}
-@media(min-width:1600px){.platform-hero-copy{padding-left:clamp(64px,6vw,120px)!important}.platform-search,.platform-people,.platform-directions,.platform-cta{margin-left:clamp(48px,5vw,100px)!important;margin-right:clamp(48px,5vw,100px)!important}}
-@media(max-width:900px){.platform-hero-copy h1{font-size:clamp(28px,5.5vw,38px)!important;max-width:14ch!important}.platform-hero-copy p{font-size:14px!important;max-width:30rem!important}}
+@media(min-width:1600px){html body .platform-hero .platform-hero-copy h1{font-size:15px!important}.platform-hero-copy{padding-left:clamp(64px,6vw,120px)!important}.platform-search,.platform-people,.platform-directions,.platform-cta{margin-left:clamp(48px,5vw,100px)!important;margin-right:clamp(48px,5vw,100px)!important}}
+@media(max-width:900px){html body .platform-hero .platform-hero-copy h1{font-size:14px!important;max-width:360px!important}.platform-hero-copy p{font-size:13px!important;max-width:30rem!important}}
 @media(max-width:780px){.site-shell{border:0!important}.platform-hero-copy{padding-left:20px!important;padding-right:20px!important}.platform-search,.platform-people,.platform-directions,.platform-cta{margin-left:12px!important;margin-right:12px!important}}
-@media(max-width:520px){.platform-hero-copy h1{font-size:clamp(26px,7.2vw,32px)!important;line-height:1.1!important;max-width:14ch!important}.platform-hero-copy p{font-size:13px!important;line-height:1.42!important}}
+@media(max-width:520px){html body .platform-hero .platform-hero-copy h1{font-size:12px!important;line-height:1.18!important;max-width:300px!important}.platform-hero-copy p{font-size:12px!important;line-height:1.42!important}}
