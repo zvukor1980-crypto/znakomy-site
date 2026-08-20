@@ -5,6 +5,7 @@
   const stateNames = {pending:"На проверке",approved:"Опубликована",rejected:"На исправлении",suspended:"Заблокирована"};
   const shell = document.createElement("section");
   shell.className = "admin-shell";
+  shell.hidden = true;
   shell.setAttribute("aria-hidden","true");
   shell.innerHTML = `
     <header class="admin-topbar">
@@ -33,8 +34,8 @@
   let isAdmin = false;
 
   function photo(path){ if(!path) return ""; try{return db.storage.from("profile-photos").getPublicUrl(path).data.publicUrl||"";}catch{return "";} }
-  function open(){ if(!isAdmin) return; shell.classList.add("open"); shell.setAttribute("aria-hidden","false"); document.body.classList.add("admin-open"); load(); }
-  function close(){ shell.classList.remove("open"); shell.setAttribute("aria-hidden","true"); document.body.classList.remove("admin-open"); }
+  function open(){ if(!isAdmin) return; shell.hidden=false; shell.classList.add("open"); shell.setAttribute("aria-hidden","false"); document.body.classList.add("admin-open"); load(); }
+  function close(){ shell.classList.remove("open"); shell.setAttribute("aria-hidden","true"); shell.hidden=true; document.body.classList.remove("admin-open"); }
   shell.querySelector(".admin-close").addEventListener("click",close);
   shell.querySelector(".admin-refresh").addEventListener("click",load);
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&shell.classList.contains("open"))close();});

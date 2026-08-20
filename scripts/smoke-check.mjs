@@ -25,7 +25,10 @@ const direct=fs.readFileSync('assets/js/direct-fix.js','utf8');
 for(const n of ['start_conversation','messageForm','mark_conversation_read'])direct.includes(n)?ok(`Direct ${n}`):fail(`Direct missing ${n}`);
 
 const community=fs.readFileSync('assets/js/community.js','utf8');
-for(const n of ["ru:{","en:{","he:{","znakomy:language","data.community","market_listings"])community.includes(n)?ok(`Community ${n}`):fail(`Community missing ${n}`);
+for(const n of ["ru:{","en:{","he:{","znakomy:language","dataset.community","market_listings"])community.includes(n)?ok(`Community ${n}`):fail(`Community missing ${n}`);
+
+const adminPanel=fs.readFileSync('assets/js/admin-panel.js','utf8');
+for(const n of ['shell.hidden = true','shell.hidden=false','shell.hidden=true'])adminPanel.includes(n)?ok(`Admin panel privacy ${n}`):fail(`Admin panel privacy missing ${n}`);
 
 const repair=fs.readFileSync('assets/js/repair.js','utf8');
 for(const n of ['repair_requests','db.from','ZnakomyRepair','ru:','en:','he:','znakomy:language'])repair.includes(n)?ok(`Repair ${n}`):fail(`Repair missing ${n}`);
