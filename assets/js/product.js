@@ -1,4 +1,4 @@
-/* ZNAKOMY production module loader — Core 4.5 audited */
+/* ZNAKOMY production module loader — Core 4.6 audited */
 (()=>{
   const style=document.createElement('style');
   style.id='znakomy-fluid-layout-fix';
@@ -14,14 +14,12 @@
 
   const js=src=>{const s=document.createElement('script');s.src=src;s.async=false;s.onerror=()=>console.error('Module failed:',src);document.head.appendChild(s)};
   const css=href=>{const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l)};
-  const b='20260820-1135-site-audit';
+  const b='20260820-1200-final-audit';
   css(`assets/css/community.css?build=${b}`);css(`assets/css/profile-flow.css?build=${b}`);css(`assets/css/admin-panel.css?build=${b}`);css(`assets/css/public-chat.css?build=${b}`);css(`assets/css/repair.css?build=${b}`);
   js(`assets/js/community.js?build=${b}`);js(`assets/js/navigation.js?build=${b}`);js(`assets/js/profile-flow.js?build=${b}`);js(`assets/js/admin-panel.js?build=${b}`);js(`assets/js/direct-fix.js?build=${b}`);js(`assets/js/public-chat.js?build=${b}`);js(`assets/js/notifications.js?build=${b}`);js(`assets/js/repair.js?build=${b}`);js(`assets/js/repair-admin.js?build=${b}`);js(`assets/js/link-audit.js?build=${b}`);
   css(`assets/css/final-power.css?build=${b}`);css(`assets/css/mobile-rescue.css?build=${b}`);
   css(`assets/css/i18n.css?build=${b}`);js(`assets/js/i18n.js?build=${b}`);
 
-  /* Emergency button is only a loading fallback. Once the real chat UI is ready,
-     remove it so desktop/mobile never show two overlapping floating chat buttons. */
   let cleanupTries=0;
   const cleanup=setInterval(()=>{
     cleanupTries++;
