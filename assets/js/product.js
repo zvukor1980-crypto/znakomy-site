@@ -2,7 +2,7 @@
 (()=>{
   const style=document.createElement('style');
   style.id='znakomy-fluid-layout-fix';
-  style.textContent=`.site-header,.platform-main,.platform-hero{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important}.platform-hero-copy{width:100%!important;max-width:none!important;padding-left:clamp(22px,5vw,86px)!important;padding-right:clamp(22px,5vw,86px)!important}.platform-hero-copy h1{max-width:900px!important}.platform-hero-copy p{max-width:650px!important}.platform-search,.platform-people,.platform-directions,.platform-cta{max-width:none!important;margin-left:clamp(14px,4vw,64px)!important;margin-right:clamp(14px,4vw,64px)!important}#publicChatEmergency{position:fixed!important;right:18px!important;bottom:24px!important;z-index:9998!important;display:flex!important;visibility:visible!important;opacity:1!important;align-items:center!important;gap:8px!important;border:1px solid rgba(255,255,255,.2)!important;background:linear-gradient(135deg,#6d28d9,#8b5cf6)!important;color:#fff!important;border-radius:999px!important;padding:14px 18px!important;font:800 14px Inter,sans-serif!important;box-shadow:0 14px 42px rgba(109,40,217,.45)!important;cursor:pointer!important}@media(max-width:780px){.platform-search,.platform-people,.platform-directions,.platform-cta{margin-left:12px!important;margin-right:12px!important}#publicChatEmergency{right:12px!important;bottom:82px!important}}`;
+  style.textContent=`.site-header,.platform-main,.platform-hero{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important}.platform-hero-copy{width:100%!important;max-width:none!important;padding-left:clamp(22px,5vw,86px)!important;padding-right:clamp(22px,5vw,86px)!important}.platform-hero-copy h1{max-width:900px!important}.platform-hero-copy p{max-width:650px!important}.platform-search,.platform-people,.platform-directions,.platform-cta{max-width:none!important;margin-left:clamp(14px,4vw,64px)!important;margin-right:clamp(14px,4vw,64px)!important}#publicChatEmergency{position:fixed!important;right:18px!important;bottom:22px!important;z-index:1800!important;display:flex!important;visibility:visible!important;opacity:.42!important;align-items:center!important;gap:8px!important;border:1px solid rgba(255,255,255,.2)!important;background:linear-gradient(135deg,#6d28d9,#8b5cf6)!important;color:#fff!important;border-radius:999px!important;padding:12px 16px!important;font:800 13px Inter,sans-serif!important;box-shadow:0 10px 28px rgba(109,40,217,.22)!important;cursor:pointer!important;transition:opacity .2s ease,transform .2s ease!important}#publicChatEmergency:hover,#publicChatEmergency:focus-visible{opacity:1!important;transform:translateY(-2px)!important}@media(max-width:780px){.platform-search,.platform-people,.platform-directions,.platform-cta{margin-left:12px!important;margin-right:12px!important}#publicChatEmergency{right:12px!important;bottom:92px!important;opacity:.38!important}}`;
   document.head.appendChild(style);
 
   const obsoleteReview=document.querySelector('#submitReviewButton,#submitReview');
@@ -14,11 +14,11 @@
 
   const js=src=>{const s=document.createElement('script');s.src=src;s.async=false;s.onerror=()=>console.error('Module failed:',src);document.head.appendChild(s)};
   const css=href=>{const l=document.createElement('link');l.rel='stylesheet';l.href=href;document.head.appendChild(l)};
-  const b='20260820-1200-final-audit';
+  const b='20260910-polish-v2';
   css(`assets/css/community.css?build=${b}`);css(`assets/css/profile-flow.css?build=${b}`);css(`assets/css/admin-panel.css?build=${b}`);css(`assets/css/public-chat.css?build=${b}`);css(`assets/css/repair.css?build=${b}`);
   js(`assets/js/community.js?build=${b}`);js(`assets/js/navigation.js?build=${b}`);js(`assets/js/profile-flow.js?build=${b}`);js(`assets/js/admin-panel.js?build=${b}`);js(`assets/js/direct-fix.js?build=${b}`);js(`assets/js/public-chat.js?build=${b}`);js(`assets/js/notifications.js?build=${b}`);js(`assets/js/repair.js?build=${b}`);js(`assets/js/repair-admin.js?build=${b}`);js(`assets/js/link-audit.js?build=${b}`);
   css(`assets/css/final-power.css?build=${b}`);css(`assets/css/mobile-rescue.css?build=${b}`);
-  css(`assets/css/i18n.css?build=20260910-i18n-v1`);js(`assets/js/i18n.js?build=20260910-i18n-v1`);
+  css(`assets/css/i18n.css?build=20260910-polish-v2`);js(`assets/js/i18n.js?build=20260910-polish-v2`);
 
   let cleanupTries=0;
   const cleanup=setInterval(()=>{
