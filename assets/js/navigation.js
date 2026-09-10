@@ -51,6 +51,14 @@
   const observer=new MutationObserver(()=>{const view=currentView();if(view)pushView(view)});
   [authModal,profilePreview,chatDrawer,communityShell].filter(Boolean).forEach(node=>observer.observe(node,{attributes:true,attributeFilter:['class']}));
 
+  function clearViewState(){
+    if(!history.state?.[stateKey])return;
+    const next={...(history.state||{})};
+    delete next[stateKey];
+    const url=location.pathname+location.search+(location.hash||'');
+    try{history.replaceState(Object.keys(next).length?next:{},'',url||'/')}catch(_){}
+  }
+
   document.addEventListener('click',event=>{
     const publicChatOpen=event.target.closest('#publicChatButton,#publicChatNav,#floatingPublicChat,#mobilePublicChat,#publicChatEmergency');
     if(publicChatOpen&&!applyingPopState)setTimeout(()=>pushView('public-chat'),0);
@@ -63,7 +71,9 @@
 
     const close=event.target.closest('[data-close-modal],[data-close-preview],[data-close-chat],[data-public-chat-close],[data-repair-close],.community-close');
     if(!close||applyingPopState)return;
-    if(history.state?.[stateKey])setTimeout(()=>history.back(),0);
+    // Close in-place: never history.back() (that can navigate to about:blank).
+    event.preventDefault();
+    clearViewState();
   },true);
 
   window.addEventListener('popstate',event=>{
