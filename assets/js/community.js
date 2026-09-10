@@ -54,7 +54,7 @@
   const dateText=value=>{try{return new Intl.DateTimeFormat(lang()==='he'?'he-IL':lang()==='en'?'en-IL':'ru-RU',{dateStyle:'medium',timeStyle:'short'}).format(new Date(value))}catch{return value||''}};
 
   function close(){shell.classList.remove('open');shell.setAttribute('aria-hidden','true');document.body.style.overflow='';formWrap.classList.remove('open')}
-  shell.querySelector('.community-close').addEventListener('click',close);
+  shell.querySelector('.community-close').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&shell.classList.contains('open'))close()});
 
   function fieldHtml([name,label,type,required]){
