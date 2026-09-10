@@ -1,0 +1,241 @@
+/* ZNAKOMY chief-polish v1 — last-linked visual layer
+   Goals: reachable auth controls, calmer dark music aesthetic, readable nav/footer */
+
+:root{
+  --chief-bg:#090a12;
+  --chief-panel:#12141f;
+  --chief-text:#e8eaf0;
+  --chief-muted:#9aa3b5;
+  --chief-accent:#8b5cf6;
+  --chief-border:rgba(255,255,255,.12);
+}
+
+/* ---- Header: never clip Login / Register ---- */
+.site-header{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px 16px!important;
+  overflow:visible!important;
+  max-width:none!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:64px!important;
+  padding:10px clamp(14px,3vw,48px)!important;
+  box-sizing:border-box!important;
+  border-radius:0!important;
+  border:0!important;
+  border-bottom:1px solid var(--chief-border)!important;
+  background:rgba(9,10,18,.94)!important;
+  box-shadow:none!important;
+}
+
+.site-header .logo{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+
+.site-header .main-nav{
+  display:flex!important;
+  flex:1 1 auto!important;
+  flex-wrap:wrap!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:6px 14px!important;
+  min-width:0!important;
+  overflow:visible!important;
+}
+
+.site-header .main-nav a{
+  white-space:nowrap!important;
+  color:rgba(232,234,240,.78)!important;
+  text-shadow:none!important;
+  font-size:12px!important;
+  letter-spacing:.01em!important;
+}
+
+.site-header .main-nav a:hover{
+  color:#fff!important;
+  text-shadow:none!important;
+}
+
+.site-header .header-actions{
+  display:flex!important;
+  flex:0 0 auto!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  overflow:visible!important;
+  min-width:0!important;
+  margin-left:auto!important;
+}
+
+.site-header .header-login,
+.site-header .header-button,
+.site-header .messages-button{
+  display:inline-flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  white-space:nowrap!important;
+  transform:none!important;
+  position:relative!important;
+  z-index:2!important;
+}
+
+.site-header .header-login{
+  color:#d8dce6!important;
+  text-decoration:none!important;
+  font-size:12px!important;
+  font-weight:700!important;
+  padding:8px 10px!important;
+}
+
+.site-header .header-button{
+  min-height:38px!important;
+  padding:0 16px!important;
+  border-radius:10px!important;
+  box-shadow:0 8px 22px rgba(124,58,237,.28)!important;
+}
+
+.site-header .header-button:hover,
+.site-header .messages-button:hover{
+  transform:none!important;
+}
+
+@media (max-width:1200px){
+  .site-header .main-nav{gap:4px 10px!important}
+  .site-header .main-nav a{font-size:11px!important}
+}
+
+/* Tablet: hamburger for nav, keep auth visible */
+@media (max-width:1050px){
+  .site-header .main-nav{display:none!important}
+  .site-header .main-nav.open{
+    display:flex!important;
+    position:absolute!important;
+    top:100%!important;
+    left:12px!important;
+    right:12px!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    gap:0!important;
+    padding:12px!important;
+    background:rgba(12,14,22,.98)!important;
+    border:1px solid var(--chief-border)!important;
+    border-radius:14px!important;
+    z-index:60!important;
+  }
+  .site-header .main-nav.open a{
+    padding:12px 10px!important;
+    border-bottom:1px solid rgba(255,255,255,.06)!important;
+  }
+  .site-header .menu-button{display:inline-grid!important;place-items:center!important}
+  .site-header .header-login,
+  .site-header .header-button{display:inline-flex!important}
+}
+
+/* Override earlier sheets that hide auth on narrow screens */
+@media (max-width:780px){
+  .site-header .header-login,
+  .site-header .header-button{
+    display:inline-flex!important;
+    min-height:36px!important;
+    height:auto!important;
+    padding:0 12px!important;
+    font-size:11px!important;
+  }
+  .site-header .header-login{padding:0 8px!important}
+}
+
+/* ---- Calm neon / professional dark music look ---- */
+.site-shell:before,
+.site-shell:after{
+  opacity:.18!important;
+  filter:blur(170px)!important;
+  animation:none!important;
+}
+
+.platform-hero>img{
+  animation:none!important;
+  filter:saturate(1.04) contrast(1.03) brightness(.88)!important;
+}
+
+.header-button,
+.platform-primary,
+.search-controls button,
+.platform-cta button,
+.app-primary{
+  box-shadow:0 8px 24px rgba(124,58,237,.26)!important;
+}
+
+.header-button:hover,
+.platform-primary:hover,
+.search-controls button:hover,
+.platform-cta button:hover,
+.app-primary:hover{
+  transform:translateY(-1px)!important;
+}
+
+.brand-mark{
+  filter:drop-shadow(0 0 10px rgba(139,92,246,.28))!important;
+}
+
+/* Spacing rhythm */
+.platform-search,
+.platform-people,
+.platform-directions,
+.platform-cta{
+  margin-top:16px!important;
+}
+
+.platform-people,
+.platform-directions{
+  padding-top:26px!important;
+  padding-bottom:26px!important;
+}
+
+.direction-card,
+.repair-card{
+  box-shadow:none!important;
+  border:1px solid var(--chief-border)!important;
+  background:rgba(18,20,31,.92)!important;
+}
+
+#repair{scroll-margin-top:88px}
+
+/* ---- Footer ---- */
+.site-footer{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:16px 24px!important;
+  padding:28px clamp(16px,3vw,48px)!important;
+  margin-top:20px!important;
+  color:var(--chief-muted)!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+  background:#07080f!important;
+  border-top:1px solid var(--chief-border)!important;
+}
+
+.site-footer .footer-logo{
+  color:#fff!important;
+  font-size:15px!important;
+  font-weight:800!important;
+  letter-spacing:.06em!important;
+  text-decoration:none!important;
+}
+
+.site-footer a{color:#b7bfd0!important;text-decoration:none!important}
+.site-footer a:hover{color:#fff!important}
+
+.site-footer .footer-links{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:10px 16px!important;
+}
+
+.site-footer .footer-meta{color:var(--chief-muted)!important}
