@@ -18,7 +18,7 @@
   css(`assets/css/community.css?build=${b}`);css(`assets/css/profile-flow.css?build=${b}`);css(`assets/css/admin-panel.css?build=${b}`);css(`assets/css/public-chat.css?build=${b}`);css(`assets/css/repair.css?build=${b}`);
   js(`assets/js/community.js?build=${b}`);js(`assets/js/navigation.js?build=${b}`);js(`assets/js/profile-flow.js?build=${b}`);js(`assets/js/admin-panel.js?build=${b}`);js(`assets/js/direct-fix.js?build=${b}`);js(`assets/js/public-chat.js?build=${b}`);js(`assets/js/notifications.js?build=${b}`);js(`assets/js/repair.js?build=${b}`);js(`assets/js/repair-admin.js?build=${b}`);js(`assets/js/link-audit.js?build=${b}`);
   css(`assets/css/final-power.css?build=${b}`);css(`assets/css/mobile-rescue.css?build=${b}`);
-  css(`assets/css/i18n.css?build=${b}`);js(`assets/js/i18n.js?build=${b}`);
+  css(`assets/css/i18n.css?build=20260910-i18n-v1`);js(`assets/js/i18n.js?build=20260910-i18n-v1`);
 
   let cleanupTries=0;
   const cleanup=setInterval(()=>{
