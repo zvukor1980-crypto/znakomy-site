@@ -20,6 +20,8 @@
   css(`assets/css/final-power.css?build=${b}`);css(`assets/css/mobile-rescue.css?build=${b}`);
   css(`assets/css/i18n.css?build=${b}`);js(`assets/js/i18n.js?build=${b}`);
   css(`assets/css/chief-mobile.css?build=${b}`);
+  /* Must load AFTER final-power / mobile-rescue / chief-mobile so people layout wins */
+  css('assets/css/chief-people-fix.css?build=20260910-people-fix-v2');
 
   let cleanupTries=0;
   const cleanup=setInterval(()=>{
