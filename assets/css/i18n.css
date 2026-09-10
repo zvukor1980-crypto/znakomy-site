@@ -4,3 +4,12 @@
 html body .platform-hero .platform-hero-copy h1{font-size:15px!important;line-height:1.22!important;letter-spacing:-.01em!important;max-width:420px!important;text-transform:none!important;margin:10px 0 12px!important;text-shadow:none!important}
 @media(max-width:900px){html body .platform-hero .platform-hero-copy h1{font-size:14px!important;max-width:360px!important}}
 @media(max-width:520px){html body .platform-hero .platform-hero-copy h1{font-size:12px!important;max-width:300px!important}}
+
+/* Locale-aware CSS chrome (codex-vibrant injects RU slogan via :after) */
+html body .site-shell .platform-main .platform-hero .platform-hero-copy h1:after,
+html body .platform-hero .platform-hero-copy h1:after{
+  content:var(--hero-slogan,"СВОЙ ЗВУК")!important;
+}
+.logo::after{
+  content:var(--logo-sub,"МУЗЫКАНТЫ ХАЙФЫ")!important;
+}
