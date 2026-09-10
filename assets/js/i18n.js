@@ -20,6 +20,7 @@
       join:'Ты музыкант? Присоединяйся.',joinP:'Здесь тебя поймут.',free:'Создать анкету бесплатно',
       footerNav:['Поиск','Музыканты','Направления','Ремонт','Связаться'],footerMeta:'© 2026 ZNAKOMY · музыканты Хайфы · 18+',
       loadingProfiles:'Загрузка анкет…',loadingNearby:'Ищем музыкантов рядом…',profilesCount:'Анкет: ',noProfiles:'Пока нет опубликованных анкет',noMatch:'Пока нет подходящих анкет.',loadError:'Ошибка загрузки',retryLoad:'Не удалось загрузить анкеты.',retry:'Повторить',
+      emptyNoneTitle:'Пока нет опубликованных анкет',emptyNoneBody:'Станьте первым музыкантом Хайфы в ZNAKOMY. Анкета появится здесь после модерации.',emptyMatchTitle:'Никого не нашли по этому запросу',emptyMatchBody:'Попробуйте другой инструмент или жанр — или создайте свою анкету.',emptyCta:'Создать анкету',photoSoon:'Фото появится после загрузки',
       writeMsg:'Написать',lookingFor:'Ищет: ',musician:'Музыкант',cityHaifa:'Хайфа',
       previewKicker:'АНКЕТА МУЗЫКАНТА · ',noBio:'Музыкант пока не добавил описание.',listenSong:'▶ Послушать песню',lookingH:'Ищет',report:'Пожаловаться',
       chatEmpty:'Здесь появятся ваши диалоги.',
@@ -49,6 +50,7 @@
       join:'Are you a musician? Join us.',joinP:'Meet people who speak your musical language.',free:'Create a free profile',
       footerNav:['Search','Musicians','Directions','Repair','Contact'],footerMeta:'© 2026 ZNAKOMY · Haifa musicians · 18+',
       loadingProfiles:'Loading profiles…',loadingNearby:'Finding musicians nearby…',profilesCount:'Profiles: ',noProfiles:'No published profiles yet',noMatch:'No matching profiles yet.',loadError:'Load error',retryLoad:'Could not load profiles.',retry:'Retry',
+      emptyNoneTitle:'No published profiles yet',emptyNoneBody:'Be the first Haifa musician on ZNAKOMY. Your profile will appear here after review.',emptyMatchTitle:'No one matches this search',emptyMatchBody:'Try another instrument or genre — or create your own profile.',emptyCta:'Create profile',photoSoon:'Photo will appear once uploaded',
       writeMsg:'Message',lookingFor:'Looking for: ',musician:'Musician',cityHaifa:'Haifa',
       previewKicker:'MUSICIAN PROFILE · ',noBio:'This musician has not added a bio yet.',listenSong:'▶ Listen to a song',lookingH:'Looking for',report:'Report',
       chatEmpty:'Your conversations will appear here.',
@@ -78,6 +80,7 @@
       join:'אתם מוזיקאים? הצטרפו.',joinP:'כאן תמצאו אנשים שמבינים מוזיקה.',free:'יצירת פרופיל בחינם',
       footerNav:['חיפוש','מוזיקאים','כיוונים','תיקון','יצירת קשר'],footerMeta:'© 2026 ZNAKOMY · מוזיקאים בחיפה · 18+',
       loadingProfiles:'טוען פרופילים…',loadingNearby:'מחפשים מוזיקאים בקרבת מקום…',profilesCount:'פרופילים: ',noProfiles:'עדיין אין פרופילים מפורסמים',noMatch:'אין פרופילים מתאימים.',loadError:'שגיאת טעינה',retryLoad:'לא ניתן לטעון פרופילים.',retry:'נסה שוב',
+      emptyNoneTitle:'עדיין אין פרופילים מפורסמים',emptyNoneBody:'היו המוזיקאים הראשונים מחיפה ב־ZNAKOMY. הפרופיל יופיע כאן אחרי בדיקה.',emptyMatchTitle:'לא נמצאו התאמות לחיפוש',emptyMatchBody:'נסו כלי או סגנון אחר — או צרו פרופיל משלכם.',emptyCta:'יצירת פרופיל',photoSoon:'התמונה תופיע אחרי ההעלאה',
       writeMsg:'הודעה',lookingFor:'מחפש/ת: ',musician:'מוזיקאי',cityHaifa:'חיפה',
       previewKicker:'פרופיל מוזיקאי · ',noBio:'המוזיקאי עדיין לא הוסיף תיאור.',listenSong:'▶ האזנה לשיר',lookingH:'מחפש/ת',report:'דיווח',
       chatEmpty:'השיחות שלכם יופיעו כאן.',
@@ -158,14 +161,25 @@
     setLabel('#nameField',t.name);setLabel('#authForm label:nth-of-type(2)',t.email);setLabel('#authForm label:nth-of-type(3)',t.password);
     const pl=qa('#profileForm label');[t.name,t.birth,t.profileCity,t.roles,t.genres,t.looking,t.song,t.about,t.photo].forEach((v,i)=>{const e=pl[i];if(!e)return;const n=[...e.childNodes].find(n=>n.nodeType===3&&n.nodeValue.trim());if(n)n.nodeValue=v});
     const dock=qa('.mobile-dock small');[t.home,t.search,t.form,'Direct',t.profile].forEach((v,i)=>{if(dock[i])dock[i].textContent=v});
-    const loading=q('.profile-loading');
-    if(loading&&!q('.member-card')){
-      const txt=loading.textContent||'';
-      if(/Загрузка|Loading|טוען/.test(txt))loading.textContent=t.loadingProfiles;
-      else if(/Ищем|Finding|מחפשים/.test(txt))loading.textContent=t.loadingNearby;
-      else if(/Пока нет опубликован|No published|עדיין אין/.test(txt))loading.textContent=t.noProfiles;
-      else if(/Пока нет подходящих|No matching|אין פרופילים מתאימים/.test(txt))loading.textContent=t.noMatch;
+    const empty=q('.empty-state[data-empty]');
+    if(empty&&!q('.member-card')){
+      const kind=empty.getAttribute('data-empty')||'none';
+      const h=q('h3',empty),p=q('p',empty),cta=q('.empty-cta',empty);
+      if(h)h.textContent=kind==='match'?t.emptyMatchTitle:t.emptyNoneTitle;
+      if(p)p.textContent=kind==='match'?t.emptyMatchBody:t.emptyNoneBody;
+      if(cta)cta.textContent=t.emptyCta;
+    }else{
+      const loading=q('.profile-loading');
+      if(loading&&!q('.member-card')){
+        const txt=loading.textContent||'';
+        if(/Загрузка|Loading|טוען/.test(txt))loading.textContent=t.loadingProfiles;
+        else if(/Ищем|Finding|מחפשים/.test(txt))loading.textContent=t.loadingNearby;
+        else if(/Пока нет опубликован|No published|עדיין אין/.test(txt))loading.textContent=t.noProfiles;
+        else if(/Пока нет подходящих|No matching|אין פרופילים מתאימים/.test(txt))loading.textContent=t.noMatch;
+      }
     }
+    qa('.avatar-placeholder small').forEach(s=>{s.textContent=t.photoSoon});
+    qa('.avatar-placeholder[aria-label]').forEach(el=>el.setAttribute('aria-label',t.photoSoon));
     const count=q('#memberCount');
     if(count){
       const n=(typeof loadedProfiles!=='undefined'&&loadedProfiles?.size)||0;

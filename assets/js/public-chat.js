@@ -50,9 +50,10 @@
     #publicChatButton{display:inline-flex!important;align-items:center;gap:7px;min-height:38px;padding:0 14px;border:1px solid rgba(157,92,255,.55);border-radius:999px;background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font-weight:800;cursor:pointer;white-space:nowrap}
     #publicChatNav{color:#c9a7ff!important;font-weight:800!important}
     #mobilePublicChat{border:0;background:none;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center}
-    #floatingPublicChat{position:fixed;right:22px;bottom:24px;z-index:2200;display:flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:12px 18px;background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font:800 14px/1 Inter,system-ui;box-shadow:0 16px 45px rgba(87,26,199,.45);cursor:pointer}
-    #floatingPublicChat b{font-size:18px}
-    @media(max-width:900px){#publicChatButton{display:none!important}#floatingPublicChat{right:14px;bottom:86px;padding:11px 14px}#floatingPublicChat span{display:none}}
+    #floatingPublicChat{position:fixed;right:18px;bottom:22px;z-index:1800;display:flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:11px 16px;background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font:800 13px/1 Inter,system-ui;box-shadow:0 10px 28px rgba(87,26,199,.22);cursor:pointer;opacity:.42;transition:opacity .2s ease,transform .2s ease,box-shadow .2s ease}
+    #floatingPublicChat:hover,#floatingPublicChat:focus-visible{opacity:1;transform:translateY(-2px);box-shadow:0 16px 40px rgba(87,26,199,.42)}
+    #floatingPublicChat b{font-size:17px}
+    @media(max-width:900px){#publicChatButton{display:none!important}#floatingPublicChat{right:14px;bottom:92px;padding:11px 14px;opacity:.38}#floatingPublicChat span{display:none}}
   `;
   document.head.appendChild(visibilityStyle);
   window.ZnakomyPublicChat={open,close};
