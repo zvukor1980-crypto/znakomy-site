@@ -22,6 +22,8 @@
   css(`assets/css/chief-mobile.css?build=${b}`);
   /* Must load AFTER final-power / mobile-rescue / chief-mobile so people layout wins */
   css('assets/css/chief-people-fix.css?build=20260910-people-fix-v2');
+  css('assets/css/dating-haifa.css?build=20260913-dating-v1');
+  js('assets/js/dating-pay.js?build=20260913-dating-v1');
 
   let cleanupTries=0;
   const cleanup=setInterval(()=>{

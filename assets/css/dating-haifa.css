@@ -1,0 +1,42 @@
+:root{
+  --d-bg:#07060b;--d-fg:#f7f2ef;--d-muted:#9b93a3;--d-line:rgba(255,255,255,.08);
+  --d-pink:#ff4d8d;--d-violet:#8b5cf6;--d-card:#12101a;
+}
+html body{background:radial-gradient(1200px 600px at 10% -10%,rgba(255,77,141,.18),transparent 55%),radial-gradient(900px 500px at 90% 0%,rgba(139,92,246,.16),transparent 50%),var(--d-bg)!important}
+html body .site-header{backdrop-filter:blur(16px);background:rgba(7,6,11,.78)!important;border-bottom:1px solid var(--d-line)!important}
+html body .logo span{letter-spacing:.12em}
+html body .platform-hero{min-height:min(78vh,720px)!important;border-radius:0 0 28px 28px;overflow:hidden}
+html body .platform-hero-copy .hero-city{color:#ffb3cc!important;font-weight:700}
+html body .platform-hero-copy h1{font-family:Space Grotesk,Inter,sans-serif!important;max-width:14ch!important}
+html body .hero-pills span{background:rgba(255,255,255,.08)!important;border:1px solid var(--d-line)!important}
+html body .platform-primary{background:linear-gradient(135deg,#ff4d8d,#8b5cf6)!important;border:0!important;box-shadow:0 12px 30px rgba(255,77,141,.28)!important}
+html body .platform-secondary{border-color:rgba(255,255,255,.25)!important}
+html body .musician-card,html body .member-card{border-radius:22px!important;overflow:hidden;border:1px solid var(--d-line)!important;background:var(--d-card)!important}
+html body .card-caption em{color:#ff9ec0!important;font-style:normal}
+html body .vip-badge{display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.06em;background:linear-gradient(135deg,#ffd76a,#ff4d8d);color:#1a0a12}
+.dating-mono{max-width:1100px;margin:0 auto;padding:0 1.25rem 3rem}
+.dating-section{margin:2.5rem 0;padding:1.5rem;border:1px solid var(--d-line);border-radius:24px;background:rgba(18,16,26,.85)}
+.dating-section h2{margin:0 0 .4rem;font-family:Space Grotesk,Inter,sans-serif;font-size:clamp(1.5rem,3vw,2rem)}
+.dating-section p.lead{margin:0 0 1.2rem;color:var(--d-muted)}
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.pay-card{border:1px solid var(--d-line);border-radius:18px;padding:1.1rem;background:#0d0b14;display:flex;flex-direction:column;gap:.35rem}
+.pay-card strong{font-size:1.05rem}
+.pay-card .price{font-size:1.6rem;font-weight:800;margin:.4rem 0}
+.pay-card button{margin-top:auto;border:0;border-radius:999px;padding:.7rem 1rem;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#ff4d8d,#8b5cf6);color:#fff}
+.gift-row{display:flex;flex-wrap:wrap;gap:.6rem}
+.gift-chip{border:1px solid var(--d-line);background:#0d0b14;color:var(--d-fg);border-radius:999px;padding:.55rem .9rem;font-weight:600;cursor:pointer}
+.gift-chip:hover{border-color:#ff4d8d}
+.dating-dlg{border:1px solid var(--d-line);border-radius:20px;padding:0;width:min(440px,calc(100vw - 1.25rem));background:#120f1a;color:var(--d-fg)}
+.dating-dlg::backdrop{background:rgba(0,0,0,.7)}
+.dating-dlg form{padding:1.2rem;display:grid;gap:.7rem}
+.dating-dlg h3{margin:0;font-family:Space Grotesk,Inter,sans-serif}
+.dating-dlg label{display:grid;gap:.3rem;font-size:.8rem;color:var(--d-muted)}
+.dating-dlg input,.dating-dlg textarea,.dating-dlg select{border:1px solid var(--d-line);border-radius:12px;background:#0a0810;color:var(--d-fg);padding:.7rem .8rem;font:inherit}
+.dating-dlg .actions{display:flex;gap:.5rem;justify-content:flex-end}
+.dating-dlg .actions button{border-radius:999px;padding:.65rem 1rem;font-weight:700;cursor:pointer;border:1px solid var(--d-line);background:transparent;color:var(--d-fg)}
+.dating-dlg .actions .go{border:0;background:linear-gradient(135deg,#ff4d8d,#8b5cf6);color:#fff}
+.preview-pay{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.preview-pay button{border:0;border-radius:999px;padding:.55rem .9rem;font-weight:700;cursor:pointer}
+.preview-pay .vip{background:linear-gradient(135deg,#ffd76a,#ff4d8d);color:#1a0a12}
+.preview-pay .gift{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--d-line)}
+@media(max-width:820px){.pay-grid{grid-template-columns:1fr}}
