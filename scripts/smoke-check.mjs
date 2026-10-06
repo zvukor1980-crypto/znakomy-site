@@ -3,11 +3,15 @@ import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 const fail=m=>{console.error('FAIL:',m);process.exitCode=1},ok=m=>console.log('OK:',m);
 const index=fs.readFileSync('index.html','utf8');
-for(const id of ['authModal','authForm','profileForm','profileGrid','openMessages','chatDrawer','conversationList','activeChat','messageForm','messageStream','logoutButton']) index.includes(`id="${id}"`)?ok(`#${id}`):fail(`missing #${id}`);
-for(const asset of ['assets/images/znakomy-family-band-v1.jpg','assets/brand/znakomy-mark.svg','assets/brand/znakomy-logo.svg']) fs.existsSync(asset)?ok(`asset ${asset}`):fail(`missing asset ${asset}`);
-if(!index.includes('assets/images/znakomy-family-band-v1.jpg'))fail('hero image not referenced');else ok('hero image referenced');
-if(!index.includes('/assets/brand/znakomy-mark.svg'))fail('brand mark not referenced');else ok('brand mark referenced');
-if(!index.includes('assets/js/core.js'))fail('core.js is not loaded');else ok('local core.js loaded');
+for(const id of ['authModal','authForm','profileForm','profileGrid','profilePreview','profilePreviewContent','searchForm','orderModal','orderForm','recoveryForm','logoutButton']) index.includes(`id="${id}"`)?ok(`#${id}`):fail(`missing #${id}`);
+for(const asset of ['assets/v2/splash.jpg','assets/v2/logo.png','assets/v2/favicon.png','assets/v2/apple-touch-icon.png','assets/vendor/supabase.js']) fs.existsSync(asset)?ok(`asset ${asset}`):fail(`missing asset ${asset}`);
+if(!index.includes('assets/v2/splash.jpg'))fail('hero image not referenced');else ok('hero image referenced');
+if(!index.includes('assets/v2/logo.png'))fail('brand mark not referenced');else ok('brand mark referenced');
+if(!index.includes('assets/v2/app.js'))fail('current app is not loaded');else ok('current local app loaded');
+if(/<script[^>]+src=["'][^"']*(?:cdn\.jsdelivr\.net|unpkg\.com)/.test(index))fail('external script runtime dependency');else ok('same-origin script runtime');
+const activeApp=fs.readFileSync('assets/v2/app.js','utf8');
+try{execFileSync(process.execPath,['--check','assets/v2/app.js'],{stdio:'pipe'});ok('syntax active app')}catch(e){fail('syntax active app')}
+for(const n of ['loadProfiles','matchesInterest','matchesMood','showAccount','openPreview','writeTo','openOrder','escapeHtml','onAuthStateChange'])activeApp.includes(n)?ok(`active app ${n}`):fail(`active app missing ${n}`);
 
 const jsFiles=fs.readdirSync('assets/js').filter(f=>f.endsWith('.js'));
 for(const file of jsFiles){try{execFileSync(process.execPath,['--check',`assets/js/${file}`],{stdio:'pipe'});ok(`syntax ${file}`)}catch(e){fail(`syntax ${file}`)}}
@@ -68,4 +72,4 @@ const seoPages=htmlFiles.filter(p=>p!=='index.html'&&!p.startsWith('.github/')&&
 for(const p of seoPages){const url='https://znakomy.online/'+p.replaceAll('\\','/');sitemap.includes(`<loc>${url}</loc>`)?ok(`sitemap ${p}`):fail(`sitemap missing ${p}`)}
 
 if(process.exitCode)process.exit(1);
-console.log('\nProduction smoke audit passed: assets + links + sitemap + core + Direct + community + chat + repair + history + RU/HE/EN + mobile + regression safeguards.');
+console.log('\nStatic production audit passed: current app shell, syntax, local assets, links, sitemap and legacy modules. Live authentication, messages, payment and database behavior require separate integration tests.');
